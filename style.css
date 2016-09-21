@@ -31,12 +31,6 @@ p.caption {
   font-family: 'Lora', serif;
 }
 
-iframe {
-  border: 0;
-  margin: 0;
-}
-
-
 /* MOBILE */
 @media screen and (max-width: 600px) {
   iframe {
