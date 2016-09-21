@@ -17,7 +17,7 @@ body {
     height: 240px;
   }
 }
-/* DESKTOP */
+/* DESKTOP 
 @media screen and (min-width: 600px) {
   iframe {
     width: 1280px;
@@ -25,4 +25,4 @@ body {
     margin: 0;
   }
 }
-
+*/
