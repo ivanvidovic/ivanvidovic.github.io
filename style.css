@@ -1,5 +1,10 @@
+html {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
 body {
-  width: 50%;
   margin: 0;
   padding: 0;
   background-color: #000;
@@ -26,7 +31,10 @@ p.caption {
   font-family: 'Lora', serif;
 }
 
-iframe { border: 0; }
+iframe {
+  border: 0;
+  margin: 0;
+}
 
 
 /* MOBILE */
