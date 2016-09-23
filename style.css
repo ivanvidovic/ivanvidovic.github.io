@@ -46,7 +46,7 @@ a:hover {
 }
 
 /* TABLET */
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1600px) {
   iframe {
   width: 65%;
   height: 400px;
