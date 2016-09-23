@@ -16,13 +16,13 @@ iframe {
   border: 0;
 }
 
-a.link {
-  font: 15px Arial, Verdana, sans-serif;
+a:link {
+  font: 15px Verdana, sans-serif;
   font-weight: bold;
   color: #00FF00;
-  letter-spacing: 5px;
+  letter-spacing: 10px;
+  text-decoration: none;
 }
-
 
 /* MOBILE */
 @media screen and (max-width: 600px) {
