@@ -24,6 +24,14 @@ a:link {
   text-decoration: none;
 }
 
+a:visited {
+    color: #00FF00;
+}
+
+a:hover {
+    color: #0050FF;
+}
+
 /* MOBILE */
 @media screen and (max-width: 600px) {
   iframe {
