@@ -16,6 +16,12 @@ iframe {
   border: 0;
 }
 
+p.link {
+  font: 15px helvetica, sans-serif;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+
 /* MOBILE */
 @media screen and (max-width: 600px) {
   iframe {
