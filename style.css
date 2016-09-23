@@ -17,6 +17,7 @@ body {
 /* MOBILE */
 @media screen and (max-width: 600px) {
   iframe {
+    width: 480px;
     height: 240px;
   }
 }
