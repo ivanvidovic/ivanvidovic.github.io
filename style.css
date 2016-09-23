@@ -54,7 +54,7 @@ a:hover {
 }
 
 /* DESKTOP */
-@media screen and (min-width: 1600px) {
+@media screen and (min-width: 1500px) {
   iframe {
   width: 65%;
   height: 600px;
