@@ -17,9 +17,11 @@ iframe {
 }
 
 p.link {
-  font: 15px helvetica, sans-serif;
+  font: 15px Arial, Verdana, sans-serif;
   font-variant: small-caps;
   font-weight: bold;
+  color: #00FF00;
+  letter-spacing: 5px;
 }
 
 /* MOBILE */
