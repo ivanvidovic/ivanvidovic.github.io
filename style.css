@@ -45,13 +45,15 @@ a:hover {
   }
 }
 
-/* TABLET */
+/* TABLET
 @media screen and (min-width: 1600px) {
   iframe {
   width: 65%;
   height: 400px;
   }
 }
+*/
+
 
 /* DESKTOP */
 @media screen and (min-width: 1920px) {
