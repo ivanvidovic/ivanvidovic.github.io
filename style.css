@@ -32,6 +32,11 @@ a:hover {
     color: #0050FF;
 }
 
+#green{
+    color: #00FF00;
+    letter-spacing: 10px;
+}
+
 /* MOBILE */
 @media screen and (max-width: 600px) {
   iframe {
