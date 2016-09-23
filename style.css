@@ -11,7 +11,7 @@ body {
 }
 
   iframe {
-  border: 20px solid #3c00ff;
+  border: 0;
 }
 
 /* MOBILE */
@@ -19,7 +19,6 @@ body {
   iframe {
   width: 100%;
   height: 300px;
-  border: 0;
   }
 }
 
