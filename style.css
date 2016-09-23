@@ -38,7 +38,7 @@ a:hover {
 }
 
 /* MOBILE */
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 800px) {
   iframe {
   width: 65%;
   height: 200px;
