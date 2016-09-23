@@ -45,11 +45,11 @@ a:hover {
   }
 }
 
-/* DESKTOP 
-@media screen and (min-width: 600px) {
+/* DESKTOP */
+@media screen and (min-width: 1920px) {
   iframe {
-  width: 70%;
-  height: 400px;
+  width: 65%;
+  height: 540px;
   }
 }
-*/
+
