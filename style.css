@@ -10,6 +10,9 @@ body {
   background-color: #000;
 }
 
+  iframe {
+  border: 20px solid #3c00ff;
+}
 
 /* MOBILE */
 @media screen and (max-width: 600px) {
@@ -17,6 +20,7 @@ body {
     height: 240px;
   }
 }
+
 /* DESKTOP 
 @media screen and (min-width: 600px) {
   iframe {
