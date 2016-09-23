@@ -10,12 +10,15 @@ body {
   background-color: #000;
 }
 
-  iframe {
+iframe {
   width: 70%;
   height: 600px;
   border: 0;
 }
 
+#header {
+  margin: 0 0 30px 0;
+}
 /* MOBILE */
 @media screen and (max-width: 600px) {
   iframe {
