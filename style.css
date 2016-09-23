@@ -11,8 +11,6 @@ body {
 }
 
 iframe {
-  width: 65%;
-  height: 450px;
   border: 0;
 }
 
@@ -45,11 +43,20 @@ a:hover {
   }
 }
 
+/* TABLET */
+@media screen and (min-width: 1280px) {
+  iframe {
+  width: 65%;
+  height: 400px;
+  }
+}
+
+
 /* DESKTOP */
 @media screen and (min-width: 1920px) {
   iframe {
   width: 65%;
-  height: 540px;
+  height: 600px;
   }
 }
 
