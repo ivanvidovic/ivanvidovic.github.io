@@ -30,7 +30,7 @@ h1 {
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
-  text-shadow: 5px 5px 0px rgba(255,0,0,0.5);
+  text-shadow: 5px 5px 0px rgba(255,0,0,0.75);
 }
 
 h2 {
@@ -56,7 +56,7 @@ h2 {
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
-  text-shadow: 5px 5px 0px rgba(255,0,0,0.5);
+  text-shadow: 5px 5px 0px rgba(255,0,0,0.75);
 }
 
 iframe {
