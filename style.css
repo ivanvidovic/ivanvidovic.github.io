@@ -103,7 +103,7 @@ a:hover {
 }
 
 /* MOBILE */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
   iframe {
     width: 65%;
     height: 200px;
@@ -111,20 +111,20 @@ a:hover {
   
     
   .illustration {
-    max-width: 100%;
-    max-height: 400px;
+    width: 65%;
+    max-height: 200px;
   }
 }
 
 /* TABLET */
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1200px) {
   iframe {
     width: 65%;
     height: 400px;
   }
   
   .illustration {
-    max-width: 80%;
+    width: 65%;
     max-height: 400px;
   }
 }
@@ -137,7 +137,7 @@ a:hover {
   }
   
   .illustration {
-    max-width: 60%;
+    max-width: 65%;
     max-height: 600px;
   }
 }
