@@ -7,7 +7,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: #000;
+  background-color: #FFCEB3;
 }
 
 h1 {
@@ -16,7 +16,7 @@ h1 {
   letter-spacing: 20px;
   text-align: center;
   margin: 0 -10px -20px 0;
-  color: #00FF00;
+  color: #0000FF;
   position: absolute;
   z-index: 0;
   max-width: 65%;
@@ -37,21 +37,21 @@ iframe {
 a:link {
   font: 10px Helvetica, sans-serif;
   font-weight: bold;
-  color: #00FF00;
+  color: #0000FF;
   letter-spacing: 20px;
   text-decoration: none;
 }
 
 a:visited {
-  color: #00FF00;
+  color: #0000FF;
 }
 
 a:hover {
-  color: #0050FF;
+  color: #B6B6FF;
 }
 
-#green{
-  color: #00FF00;
+#green {
+  color: #0000FF;
     letter-spacing: 10px;
 }
 
