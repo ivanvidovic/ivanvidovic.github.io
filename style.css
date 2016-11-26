@@ -49,6 +49,11 @@ a:hover {
     width: 65%;
     height: 200px;
   }
+  
+  .illustration {
+    max-width: 65%;
+    max-height: 200px;
+  }
 }
 
 /* TABLET */
@@ -57,6 +62,12 @@ a:hover {
     width: 65%;
     height: 400px;
   }
+  
+    
+  .illustration {
+    max-width: 65%;
+    max-height: 400px;
+  }
 }
 
 /* DESKTOP */
@@ -64,6 +75,11 @@ a:hover {
   iframe {
     width: 65%;
     height: 600px;
+  }
+  
+  .illustration {
+    max-width: 65%;
+    max-height: 600px;
   }
 }
 
