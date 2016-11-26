@@ -18,7 +18,7 @@ h1 {
   text-align: center;
   margin: 0 -10px -20px 0;
   color: #0000FF;
-  position: absolute;
+  position: fixed;
   background-image: -webkit-gradient(
     linear,
     left top,
