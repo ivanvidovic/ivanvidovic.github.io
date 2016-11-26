@@ -11,12 +11,13 @@ body {
 }
 
 h1 {
-  font-size: 30pt;
-  font-family: sans-serif, Helvetica;
+  font: 20px Helvetica, sans-serif;
+  font-weight: bold;
   text-align: center;
-  font-variant: small-caps;
+  letter-spacing: 20px;
   margin-bottom: -30px;
   color: #00FF00;
+  z-index: 0;
 }
 
 iframe {
@@ -33,7 +34,7 @@ iframe {
 }
 
 a:link {
-  font: 10px Verdana, sans-serif;
+  font: 10px Helvetica, sans-serif;
   font-weight: bold;
   color: #00FF00;
   letter-spacing: 20px;
