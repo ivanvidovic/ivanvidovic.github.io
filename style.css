@@ -11,12 +11,13 @@ body {
 }
 
 h1 {
-  font: 20px Helvetica, sans-serif;
+  font: 30px Helvetica, sans-serif;
   font-weight: bold;
   text-align: center;
   letter-spacing: 20px;
-  margin-bottom: -30px;
+  margin-bottom: -10px;
   color: #00FF00;
+  position: fixed;
   z-index: 0;
 }
 
