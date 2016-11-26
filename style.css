@@ -17,8 +17,8 @@ iframe {
 }
 
 .illustration {
-  height: auto;
   max-width: 65%;
+  max-height: 400px;
   border: 0;
 }
 
