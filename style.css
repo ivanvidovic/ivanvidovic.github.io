@@ -66,6 +66,7 @@ iframe {
 }
 
 .illustration {
+  width: 400px;
   max-width: 33%;
   m/ax-height: 350px;
   border: 0;
