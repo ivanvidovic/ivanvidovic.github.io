@@ -18,10 +18,6 @@ h1 {
   text-align: center;
   margin: 100px 0 50px 0;
   color: #0000FF;
-  position: absolute;
-  left: 10%;
-  right: 10%;
-  overflow: visible;
 }
 
 h2 {
