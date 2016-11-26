@@ -18,6 +18,9 @@ h1 {
   text-align: center;
   margin: 100px 0 100px 0;
   color: #0000FF;
+  -ms-transform: skewY(-5deg);
+  -webkit-transform: skewY(-5deg);
+  transform: skewY(-5deg);
 }
 
 h2 {
@@ -41,9 +44,9 @@ h2 {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  -ms-transform: skewY(20deg);
-  -webkit-transform: skewY(20deg);
-  transform: skewY(-10deg);
+  -ms-transform: skewY(-5deg);
+  -webkit-transform: skewY(-5deg);
+  transform: skewY(-5deg);
 }
 
 iframe {
