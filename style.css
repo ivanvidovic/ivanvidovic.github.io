@@ -39,7 +39,7 @@ h2 {
     left top,
     right top,
     color-stop(0.45, rgb(0,0,255)),
-    color-stop(0.55, rgb(0,0,0))
+    color-stop(0.55, rgb(255,0,255))
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -66,6 +66,9 @@ a:link {
   color: #0000FF;
   letter-spacing: 20px;
   text-decoration: none;
+  -ms-transform: skewY(-5deg);
+  -webkit-transform: skewY(-5deg);
+  transform: skewY(-5deg);
 }
 
 a:visited {
@@ -78,7 +81,10 @@ a:hover {
 
 #green {
   color: #0000FF;
-    letter-spacing: 10px;
+  letter-spacing: 10px;
+  -ms-transform: skewY(-5deg);
+  -webkit-transform: skewY(-5deg);
+  transform: skewY(-5deg);
 }
 
 /* MOBILE */
