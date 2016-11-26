@@ -7,7 +7,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: #FFCEB3;
+  background-color: #FFEEE6;
 }
 
 h1 {
@@ -18,8 +18,16 @@ h1 {
   margin: 0 -10px -20px 0;
   color: #0000FF;
   position: absolute;
-  z-index: 0;
-  max-width: 65%;
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(1.00, rgb(0,0,0)),
+    color-stop(0.50, rgb(0,255,0)),
+    color-stop(0.00, rgb(255,0,0))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 iframe {
