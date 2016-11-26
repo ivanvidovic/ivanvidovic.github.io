@@ -121,7 +121,7 @@ a:hover {
   }
   
   .illustration {
-    max-width: 400px;
+    max-width: 65%px;
   }
 }
 
@@ -132,8 +132,8 @@ a:hover {
     height: 600px;
   }
   
-  .i/llustration {
-    max-height: 600px;
+  .illustration {
+    max-width: 65%;
   }
 }
 
