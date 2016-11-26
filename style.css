@@ -18,6 +18,15 @@ h1 {
   text-align: center;
   margin: 100px 0 100px 0;
   color: #0000FF;
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0.45, rgb(255,255,0)),
+    color-stop(0.55, rgb(0,0,255))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
