@@ -21,7 +21,7 @@ h1 {
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
-  text-shadow: 7px 7px 0px rgba(0, 0, 255, 1);
+  text-shadow: 5px 5px 0px rgba(0,0,255,0.5);
 }
 
 h2 {
@@ -40,14 +40,14 @@ h2 {
     left top,
     right top,
     color-stop(0.45, rgb(0,0,255)),
-    color-stop(0.55, rgb(255,0,255))
+    color-stop(0.55, rgb(255,255,0))
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
-  text-shadow: 7px 7px 0px rgba(0, 0, 255, 1);
+  text-shadow: 5px 5px 0px rgba(0,0,255,0.5);
 }
 
 iframe {
@@ -75,7 +75,7 @@ a:visited {
 }
 
 a:hover {
-  color: #B6B6FF;
+  color: #FF00FF;
 }
 
 #green {
