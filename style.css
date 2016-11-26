@@ -108,6 +108,12 @@ a:hover {
     width: 65%;
     height: 200px;
   }
+  
+    
+  .illustration {
+    max-width: 100%;
+    max-height: 400px;
+  }
 }
 
 /* TABLET */
@@ -115,6 +121,11 @@ a:hover {
   iframe {
     width: 65%;
     height: 400px;
+  }
+  
+  .illustration {
+    max-width: 80%;
+    max-height: 400px;
   }
 }
 
@@ -126,7 +137,7 @@ a:hover {
   }
   
   .illustration {
-    max-width: 65%;
+    max-width: 60%;
     max-height: 600px;
   }
 }
