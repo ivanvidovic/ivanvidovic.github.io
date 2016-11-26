@@ -67,7 +67,7 @@ iframe {
 
 .illustration {
   max-width: 65%;
-  max-height: 400px;
+  max-height: 300px;
   border: 0;
 }
 
@@ -110,7 +110,7 @@ a:hover {
 }
 
 /* TABLET */
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1000px) {
   iframe {
     width: 65%;
     height: 400px;
@@ -118,7 +118,7 @@ a:hover {
 }
 
 /* DESKTOP */
-@media screen and (min-width: 1700px) {
+@media screen and (min-width: 1500px) {
   iframe {
     width: 65%;
     height: 600px;
