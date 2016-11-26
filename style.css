@@ -109,31 +109,31 @@ a:hover {
     height: 200px;
   }
   
-  .illustration {
+  .i/llustration {
     max-height: 200px;
   }
 }
 
 /* TABLET */
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1300px) {
   iframe {
     width: 65%;
     height: 400px;
   }
   
-  .illustration {
+  .i/llustration {
     max-height: 400px;
   }
 }
 
 /* DESKTOP */
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1600px) {
   iframe {
     width: 65%;
     height: 600px;
   }
   
-  .illustration {
+  .i/llustration {
     max-height: 600px;
   }
 }
