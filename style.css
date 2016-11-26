@@ -8,10 +8,11 @@ body {
   margin: 0;
   padding: 0;
   background-color: #FFDDCC;
+  text-align: center;
 }
 
 h1 {
-  font: 30px Helvetica, sans-serif;
+  font: 20px Helvetica, sans-serif;
   font-weight: bold;
   letter-spacing: 20px;
   text-align: center;
@@ -22,9 +23,9 @@ h1 {
     linear,
     left top,
     right top,
+    color-stop(0.25, rgb(0,0,255)),
     color-stop(0.00, rgb(0,0,255)),
-    color-stop(0.00, rgb(0,0,255)),
-    color-stop(1.00, rgb(255,0,0))
+    color-stop(0.75, rgb(255,0,0))
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
