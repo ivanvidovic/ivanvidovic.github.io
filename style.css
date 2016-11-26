@@ -38,9 +38,9 @@ h2 {
     linear,
     left top,
     right top,
+    color-stop(0.40, rgb(255,255,255)),
     color-stop(0.00, rgb(255,255,255)),
-    color-stop(0.50, rgb(255,255,255)),
-    color-stop(1.00, rgb(0,0,0))
+    color-stop(0.60, rgb(0,0,0))
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
