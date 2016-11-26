@@ -13,7 +13,8 @@ body {
 h1 {
   font-size: 30pt;
   font-family: sans-serif, Helvetica;
-  text-align: left;
+  text-align: center;
+  font-variant: small-caps;
   margin-bottom: -30px;
   color: #00FF00;
 }
