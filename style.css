@@ -21,10 +21,11 @@ h1 {
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
+  text-shadow: 7px 7px 0px rgba(0, 0, 255, 1);
 }
 
 h2 {
-  font: 20px Helvetica, sans-serif;
+  font: 30px Helvetica, sans-serif;
   font-weight: bold;
   letter-spacing: 20px;
   text-align: center;
@@ -46,7 +47,7 @@ h2 {
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
-  text-shadow: 7px 7px 0px rgba(255, 221, 204, 1);
+  text-shadow: 7px 7px 0px rgba(0, 0, 255, 1);
 }
 
 iframe {
