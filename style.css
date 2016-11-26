@@ -114,7 +114,7 @@ a:hover {
 }
 
 /* TABLET */
-@media screen and (min-width: 1300px) {
+@media screen and (min-width: 1200px) {
   iframe {
     width: 65%;
     height: 400px;
@@ -126,7 +126,7 @@ a:hover {
 }
 
 /* DESKTOP */
-@media screen and (min-width: 1600px) {
+@media screen and (min-width: 1400px) {
   iframe {
     width: 65%;
     height: 600px;
