@@ -35,12 +35,15 @@ h2 {
     linear,
     left top,
     right top,
-    color-stop(0.25, rgb(0,0,255)),
     color-stop(0.00, rgb(0,0,255)),
-    color-stop(0.75, rgb(255,0,0))
+    color-stop(0.50, rgb(0,0,255)),
+    color-stop(1.00, rgb(255,0,0))
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  -ms-transform: skewY(20deg);
+  -webkit-transform: skewY(20deg);
+  transform: skewY(-10deg);
 }
 
 iframe {
