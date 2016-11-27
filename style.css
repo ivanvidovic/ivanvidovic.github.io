@@ -6,7 +6,7 @@ html {
     linear,
     left top,
     right bottom,
-    color-stop(0.30, rgb(255,221,204)),
+    color-stop(0.30, rgb(255,238,230)),
     color-stop(0.70, rgb(207,221,255))
   );  
 }
