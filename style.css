@@ -38,7 +38,6 @@ h1 {
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
   text-shadow: 5px 5px 0px rgba(255,255,0,0.7);
-  -webkit-animation-duration: 3s;
 }
 
 h2 {
