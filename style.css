@@ -8,7 +8,7 @@ html {
     right bottom,
     color-stop(0.00, rgb(255,220,204)),
     color-stop(1.00, rgb(207,221,255))
-  );  
+  );
 }
 
 body {
@@ -108,13 +108,28 @@ a:hover {
   transform: skewY(-5deg);
 }
 
+img {
+  transition: 1s all;
+}
+
+&:hover {
+  img {
+    -webkit-filter:blur(10px);
+    filter: blur(10px);
+  }
+}
+
+
+
+
+
 /* MOBILE */
 @media screen and (max-width: 1000px) {
   iframe {
     width: 65%;
     height: 200px;
   }
-  
+
   .illustration {
     max-width: 65%;
   }
@@ -126,7 +141,7 @@ a:hover {
     width: 65%;
     height: 400px;
   }
-  
+
   .illustration {
     max-width: 65%px;
   }
@@ -138,9 +153,8 @@ a:hover {
     width: 65%;
     height: 600px;
   }
-  
+
   .illustration {
     max-width: 65%;
   }
 }
-
