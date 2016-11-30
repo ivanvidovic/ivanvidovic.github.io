@@ -112,13 +112,17 @@ img {
   transition: 1s all;
 }
 
-&:hover {
-  img {
-    -webkit-filter:blur(10px);
-    filter: blur(10px);
-  }
+img.blur {
+	-webkit-filter: blur(10px);
+	filter: blur(10px);
 }
 
+img.blur:focus, img.blur:hover {
+	-webkit-filter: blur(0px);
+	filter: blur(0px);
+	filter: none;
+	filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
+}
 
 
 
