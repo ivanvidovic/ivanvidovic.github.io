@@ -113,8 +113,8 @@ img {
 }
 
 img.blur {
-	-webkit-filter: blur(100px);
-	filter: blur(100px);
+	-webkit-filter: blur(10px);
+	filter: blur(10px);
 }
 
 img.blur:focus, img.blur:hover {
