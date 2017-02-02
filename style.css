@@ -124,17 +124,12 @@ img.blur:focus, img.blur:hover {
 	filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
 }
 
-iframe {
-  width: 960px;
-  height: 540px;
-}
-
 
 /* MOBILE */
 @media screen and (max-width: 1000px) {
   iframe {
-    width: 65%;
-    height: 200px;
+    width: 480px;
+    height: 270px;
   }
 
   .illustration {
@@ -145,8 +140,8 @@ iframe {
 /* TABLET */
 @media screen and (min-width: 1200px) {
   iframe {
-    width: 65%;
-    height: 400px;
+    width: 640px;
+    height: 360px;
   }
 
   .illustration {
@@ -157,8 +152,8 @@ iframe {
 /* DESKTOP */
 @media screen and (min-width: 1400px) {
   iframe {
-    width: 65%;
-    height: 600px;
+    width: 960px;
+    height: 540px;
   }
 
   .illustration {
