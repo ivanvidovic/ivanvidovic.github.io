@@ -126,7 +126,7 @@ img.blur:focus, img.blur:hover {
 
 
 /* MOBILE */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 960px) {
   iframe {
     width: 480px;
     height: 270px;
@@ -138,7 +138,7 @@ img.blur:focus, img.blur:hover {
 }
 
 /* TABLET */
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 960px) {
   iframe {
     width: 640px;
     height: 360px;
@@ -150,7 +150,7 @@ img.blur:focus, img.blur:hover {
 }
 
 /* DESKTOP */
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 1200px) {
   iframe {
     width: 960px;
     height: 540px;
