@@ -124,7 +124,10 @@ img.blur:focus, img.blur:hover {
 	filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
 }
 
-
+iframe {
+  width: 960px;
+  height: 540px;
+}
 
 
 /* MOBILE */
