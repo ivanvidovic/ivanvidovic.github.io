@@ -126,7 +126,7 @@ img.blur:focus, img.blur:hover {
 
 
 /* MOBILE */
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1200px) {
   iframe {
     width: 480px;
     height: 270px;
