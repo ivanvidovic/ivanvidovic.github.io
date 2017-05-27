@@ -99,7 +99,7 @@ a:visited {
 
 a:hover {
   color: transparent;
-  -webkit-text-stroke: 3px #1200FF;
+  -webkit-text-stroke: 1px #1200FF;
   text-shadow: 0px 0px 15px rgba(18,0,255,1);
 }
 
