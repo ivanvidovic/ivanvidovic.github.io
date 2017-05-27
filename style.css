@@ -20,7 +20,7 @@ body {
 
 h1 {
   font: 50px Big Caslon, Times, serif;
-  font-weight: bold;
+  font-weight: normal;
   letter-spacing: 30px;
   text-align: center;
   margin: 100px 0 100px 0;
@@ -84,12 +84,12 @@ iframe {
 }
 
 a:link {
-  font: 12px Big Caslon, Times, serif;
+  font: 20px Big Caslon, Times, serif;
   font-weight: bold;
   color: transparent;
   letter-spacing: 20px;
   text-decoration: none;
-  text-shadow: 0px 0px 15px rgba(255,0,0,1);
+  text-shadow: 0px 0px 5px rgba(255,0,0,1);
   -webkit-text-stroke: 1px red;
 }
 
@@ -99,10 +99,11 @@ a:visited {
 
 a:hover {
   color: transparent;
+  text-decoration: underline;
 }
 
 #green {
-  color: #0000FF;
+  color: red;
   letter-spacing: 10px;
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
