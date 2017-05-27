@@ -35,8 +35,8 @@ h1 {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 5px 5px 0px rgba(255,255,0,0.7);
 **/
+  text-shadow: 0px 0px 5px rgba(255,0,0,1);
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
@@ -64,8 +64,8 @@ h2 {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 5px 5px 0px rgba(255,255,0,0.7);
 **/
+  text-shadow: 0px 0px 5px rgba(255,0,0,1);
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
