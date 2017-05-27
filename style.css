@@ -6,8 +6,8 @@ html {
     linear,
     left top,
     right bottom,
-    color-stop(0.00, rgb(255,220,204)),
-    color-stop(1.00, rgb(207,221,255))
+    color-stop(0.00, rgb(244,212,189)),
+    color-stop(1.00, rgb(64,116,84))
   );
 }
 
