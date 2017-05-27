@@ -19,12 +19,12 @@ body {
 }
 
 h1 {
-  font: 40px Helvetica, sans-serif;
-  font-weight: bold;
+  font: 40px Big Caslon, Times, serif;
+  font-weight: medium;
   letter-spacing: 30px;
   text-align: center;
   margin: 100px 0 100px 0;
-  color: #0000FF;
+  color: transparent;
   background-image: -webkit-gradient(
     linear,
     left top,
@@ -38,16 +38,16 @@ h1 {
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
   text-shadow: 5px 5px 0px rgba(255,255,0,0.7);
-  -webkit-text-stroke: 1px red;
+  -webkit-text-stroke: 2px red;
 }
 
 h2 {
-  font: 25px Helvetica, sans-serif;
+  font: 25px Big Caslon, Times, serif;
   font-weight: bold;
   letter-spacing: 15px;
   text-align: center;
   margin: 0 -10px -20px 0;
-  color: #0000FF;
+  color: transparent;
   position: absolute;
   left: 10%;
   right: 10%;
