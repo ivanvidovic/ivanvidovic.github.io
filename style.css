@@ -19,7 +19,7 @@ body {
 }
 
 h1 {
-  font: 40px Big Caslon, Times, serif;
+  font: 50px Big Caslon, Times, serif;
   font-weight: medium;
   letter-spacing: 30px;
   text-align: center;
@@ -35,16 +35,16 @@ h1 {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 5px 5px 0px rgba(255,255,0,0.7);
+**/
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
-  text-shadow: 5px 5px 0px rgba(255,255,0,0.7);
-**/
   -webkit-text-stroke: 2px red;
 }
 
 h2 {
-  font: 25px Big Caslon, Times, serif;
+  font: 35px Big Caslon, Times, serif;
   font-weight: bold;
   letter-spacing: 15px;
   text-align: center;
@@ -64,11 +64,11 @@ h2 {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 5px 5px 0px rgba(255,255,0,0.7);
+**/
   -ms-transform: skewY(-5deg);
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
-  text-shadow: 5px 5px 0px rgba(255,255,0,0.7);
-**/
   -webkit-text-stroke: 1px blue;
 }
 
