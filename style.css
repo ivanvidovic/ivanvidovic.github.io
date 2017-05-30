@@ -136,6 +136,16 @@ img.blur:focus, img.blur:hover {
 }
 
 
+input, textarea, select, button {
+  width : 640px;
+  margin: 0;
+
+  -webkit-box-sizing: border-box; /* For legacy WebKit based browsers */
+     -moz-box-sizing: border-box; /* For legacy (Firefox <29) Gecko based browsers */
+          box-sizing: border-box;
+}
+
+
 /* MOBILE */
 @media screen and (max-width: 960px) {
   iframe {
