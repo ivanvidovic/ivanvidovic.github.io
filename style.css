@@ -137,7 +137,7 @@ img.blur:focus, img.blur:hover {
 
 
 input, textarea, select, button {
-  width : 640px;
+  width : 50%;
   margin: 0;
 
   -webkit-box-sizing: border-box; /* For legacy WebKit based browsers */
@@ -145,6 +145,9 @@ input, textarea, select, button {
           box-sizing: border-box;
 }
 
+textarea {
+  height: 200px;
+}
 
 /* MOBILE */
 @media screen and (max-width: 960px) {
