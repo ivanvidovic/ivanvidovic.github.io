@@ -101,12 +101,6 @@ h3 {
   -webkit-text-stroke: 1px red;
 }
 
-iframe {
-  w/idth: 65%;
-  height: 400px;
-  border: 0;
-}
-
 .illustration {
   width: 500px;
   border: 0;
@@ -242,9 +236,15 @@ button {
 
 /* MOBILE */
 @media screen and (max-width: 960px) {
+
   iframe {
     width: 480px;
     height: 270px;
+  }
+
+  .square {
+    width: 480px;
+    height: 480px;
   }
 
   .illustration {
@@ -259,6 +259,11 @@ button {
     height: 360px;
   }
 
+.square {
+    width: 640px;
+    height: 640px;
+  }
+
   .illustration {
     max-width: 65%px;
   }
@@ -269,6 +274,11 @@ button {
   iframe {
     width: 960px;
     height: 540px;
+  }
+
+  .square {
+    width: 960px;
+    height: 960px;
   }
 
   .illustration {
