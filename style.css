@@ -349,6 +349,20 @@ h3 {
 }
 
 
+@-webkit-keyframes transform_rotate1 {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+#rotate {
+  font-size: 25px;
+  -webkit-animation: .103s transform_rotate1 linear infinite;
+}
+
 
 .center {
   margin: auto;
@@ -356,13 +370,8 @@ h3 {
   text-align: center;
 }
 
-.illustration {
-  width: 500px;
-  border: 0;
-}
-
 a:link {
-  font: 20px Big Caslon, Times, serif;
+  font: Big Caslon, Times, serif;
   font-weight: bold;
   color: transparent;
   letter-spacing: 20px;
@@ -381,6 +390,10 @@ a:hover {
   color: transparent;
   -webkit-text-stroke: 1px #1200FF;
   text-shadow: 0px 0px 20px rgba(18,0,255,1);
+}
+
+#footer {
+  font-size: 20px;
 }
 
 #green {
