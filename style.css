@@ -115,11 +115,11 @@ h3 {
 
 .cell_01 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_01.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 5s multi_rotate1 linear infinite;
 }
 
@@ -129,8 +129,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_01 img:hover {
@@ -139,11 +139,11 @@ h3 {
 
 .cell_02 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_02.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 6s multi_rotate1 linear infinite;
 }
 
@@ -153,8 +153,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_02 img:hover {
@@ -163,11 +163,11 @@ h3 {
 
 .cell_03 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_03.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 7s multi_rotate1 linear infinite;
 }
 
@@ -177,8 +177,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_03 img:hover {
@@ -187,11 +187,11 @@ h3 {
 
 .cell_04 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_04.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 8s multi_rotate1 linear infinite;
 }
 
@@ -201,8 +201,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_04 img:hover {
@@ -211,11 +211,11 @@ h3 {
 
 .cell_05 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_05.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 9s multi_rotate1 linear infinite;
 }
 
@@ -225,8 +225,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_05 img:hover {
@@ -235,11 +235,11 @@ h3 {
 
 .cell_06 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_06.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 10s multi_rotate1 linear infinite;
 }
 
@@ -249,8 +249,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_06 img:hover {
@@ -259,11 +259,11 @@ h3 {
 
 .cell_07 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_07.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 11s multi_rotate1 linear infinite;
 }
 
@@ -273,8 +273,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_07 img:hover {
@@ -283,11 +283,11 @@ h3 {
 
 .cell_08 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_08.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 12s multi_rotate1 linear infinite;
 }
 
@@ -297,8 +297,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_08 img:hover {
@@ -307,11 +307,11 @@ h3 {
 
 .cell_09 {
   flex: 100% 100%;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_09.jpg');
-  background-size: 1080px 1080px;
+  background-size: 500px 500px;
   -webkit-animation: 13s multi_rotate1 linear infinite;
 }
 
@@ -321,8 +321,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 1080px;
-  width: 1080px;
+  height: 500px;
+  width: 500px;
 }
 
 .cell_09 img:hover {
@@ -343,7 +343,7 @@ h3 {
 
 .center {
   margin: auto;
-  width: 65%;
+  width: 60%;
 }
 
 .illustration {
