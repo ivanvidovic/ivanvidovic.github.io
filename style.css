@@ -4,10 +4,11 @@ html {
   text-align: center;
   background-image: -webkit-gradient(
     linear,
-    left top,
-    right bottom,
+    center top,
+    center bottom,
     color-stop(0.00, rgb(244,212,189)),
-    color-stop(1.00, rgb(64,116,84))
+    color-stop(0.65, rgb(64,116,84)),
+    color-stop(0.80, rgb(50,50,50))
   );
 }
 
@@ -43,6 +44,7 @@ h1 {
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
   -webkit-text-stroke: 2px red;
+  z-index: 1;
 }
 
 h2 {
@@ -72,6 +74,7 @@ h2 {
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
   -webkit-text-stroke: 1px red;
+  z-index: 1;
 }
 
 h3 {
