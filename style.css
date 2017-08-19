@@ -78,7 +78,7 @@ h2 {
 }
 
 h3 {
-  font: 25px Big Caslon, Times, serif;
+  font: 20px Big Caslon, Times, serif;
   font-weight: bold;
   letter-spacing: 10px;
   text-align: center;
@@ -358,8 +358,22 @@ h3 {
   }
 }
 
-#rotate {
-  font-size: 25px;
+#rotate1 {
+  font-size: 20px;
+  color: red;
+  padding: 0px 0px 2px 0px;
+  text-shadow: 0px 0px 7px rgba(255,0,0,1);
+  -webkit-text-stroke: 1px red;
+  -webkit-animation: .101s transform_rotate1 linear infinite;
+  animation-direction: reverse;
+}
+
+#rotate2 {
+  font-size: 20px;
+  color: red;
+  padding: 0px 10px 0px 0px;
+  text-shadow: 0px 0px 7px rgba(255,0,0,1);
+  -webkit-text-stroke: 1px red;
   -webkit-animation: .103s transform_rotate1 linear infinite;
 }
 
