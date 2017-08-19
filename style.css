@@ -104,97 +104,243 @@ h3 {
 }
 
 
-/*
-
-#light_panel_01 {
-	background-image: url('images/light/vase_on_01.jpg');
-  background-size: 500px 500px ;
-	height: 500px;
-	width: 500px;
-  float: left;
-  display: inline-block;
-}
-
-#light_panel_01 img {
-	-webkit-transition: all ease 1s;
-	-moz-transition: all ease 1s;
-	-o-transition: all ease 1s;
-	-ms-transition: all ease 1s;
-	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
-}
-
-#light_panel_01 img:hover {
-	opacity: 0;
-}
-
-#light_panel_02 {
-	background-image: url('images/light/vase_on_02.jpg');
-  background-size: 500px 500px ;
-	height: 500px;
-	width: 500px;
-  float: left;
-}
-
-#light_panel_02 img {
-	-webkit-transition: all ease 1s;
-	-moz-transition: all ease 1s;
-	-o-transition: all ease 1s;
-	-ms-transition: all ease 1s;
-	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
-}
-
-#light_panel_02 img:hover {
-	opacity: 0;
-}
-
-#light_panel_03 {
-	background-image: url('images/light/vase_on_03.jpg');
-  background-size: 500px 500px;
-	height: 500px;
-	width: 500px;
-  clear: left;
-}
-
-#light_panel_03 img {
-	-webkit-transition: all ease 1s;
-	-moz-transition: all ease 1s;
-	-o-transition: all ease 1s;
-	-ms-transition: all ease 1s;
-	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
-}
-
-#light_panel_03 img:hover {
-	opacity: 0;
-}
-
-*/
-
 
 .grid {
-  display: flex;                       /* establish flex container */
-  flex-wrap: wrap;                     /* enable flex items to wrap */
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.cell {
-  flex: 50% 50%;                       /* don't grow, don't shrink, width */
-  height: 500px;
-  width: 500px;
+.cell_01 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_01.jpg');
+  background-size: 400px 400px;
+  -webkit-animation: 5s multi_rotate1 linear infinite;
+}
+
+.cell_01 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_01 img:hover {
+	opacity: 0;
+}
+
+.cell_02 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_02.jpg');
+  background-size: 400px 400px;
+  -webkit-animation: 6s multi_rotate1 linear infinite;
+}
+
+.cell_02 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_02 img:hover {
+	opacity: 0;
+}
+
+.cell_03 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_on_03.jpg');
-  background-size: 500px 500px;
+  background-size: 400px 400px;
+  -webkit-animation: 7s multi_rotate1 linear infinite;
 }
+
+.cell_03 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_03 img:hover {
+	opacity: 0;
+}
+
+.cell_04 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_04.jpg');
+  background-size: 400px 400px;
+  -webkit-animation: 8s multi_rotate1 linear infinite;
+}
+
+.cell_04 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_04 img:hover {
+	opacity: 0;
+}
+
+.cell_05 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_05.jpg');
+  background-size: 400px 400px;
+  -webkit-animation: 9s multi_rotate1 linear infinite;
+}
+
+.cell_05 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_05 img:hover {
+	opacity: 0;
+}
+
+.cell_06 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_06.jpg');
+  background-size: 400px 400px;
+  -webkit-animation: 10s multi_rotate1 linear infinite;
+}
+
+.cell_06 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_06 img:hover {
+	opacity: 0;
+}
+
+.cell_07 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_07.jpg');
+  background-size: 400px 400px;
+  -webkit-animation: 11s multi_rotate1 linear infinite;
+}
+
+.cell_07 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_07 img:hover {
+	opacity: 0;
+}
+
+.cell_08 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_08.jpg');
+  background-size: 400px 400px;
+  -webkit-animation: 12s multi_rotate1 linear infinite;
+}
+
+.cell_08 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_08 img:hover {
+	opacity: 0;
+}
+
+.cell_09 {
+  flex: 100% 100%;
+  height: 400px;
+  width: 400px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_09.jpg');
+  background-size: 400px 400px;
+  -webkit-animation: 13s multi_rotate1 linear infinite;
+}
+
+.cell_09 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 400px;
+  width: 400px;
+}
+
+.cell_09 img:hover {
+	opacity: 0;
+}
+
+
+@-webkit-keyframes multi_rotate1 {
+  0% {
+    -webkit-filter:hue-rotate(0deg);
+  }
+  100% {
+    -webkit-filter:hue-rotate(360deg);
+  }
+}
+
 
 
 .center {
-  display: block;
   margin: auto;
-  width: 1500px;
+  width: 65%;
 }
 
 .illustration {
