@@ -118,9 +118,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_01.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 5s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_01.jpg');
+  background-size: cover;
 }
 
 .cell_01 img {
@@ -131,10 +130,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: 5s multi_rotate1 linear infinite;
 }
 
 .cell_01 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 .cell_02 {
@@ -142,9 +143,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_02.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 6s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_02.jpg');
+  background-size: cover;
 }
 
 .cell_02 img {
@@ -155,10 +155,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: 6s multi_rotate1 linear infinite;
 }
 
 .cell_02 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 .cell_03 {
@@ -166,9 +168,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_03.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 7s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_03.jpg');
+  background-size: cover;
 }
 
 .cell_03 img {
@@ -179,10 +180,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: 7s multi_rotate1 linear infinite;
 }
 
 .cell_03 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 .cell_04 {
@@ -190,9 +193,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_04.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 8s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_04.jpg');
+  background-size: cover;
 }
 
 .cell_04 img {
@@ -203,10 +205,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: 8s multi_rotate1 linear infinite;
 }
 
 .cell_04 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 .cell_05 {
@@ -214,9 +218,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_05.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 9s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_05.jpg');
+  background-size: cover;
 }
 
 .cell_05 img {
@@ -227,10 +230,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: .5s multi_rotate1 linear infinite;
 }
 
 .cell_05 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 .cell_06 {
@@ -238,9 +243,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_06.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 10s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_06.jpg');
+  background-size: cover;
 }
 
 .cell_06 img {
@@ -251,10 +255,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: 10s multi_rotate1 linear infinite;
 }
 
 .cell_06 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 .cell_07 {
@@ -262,9 +268,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_07.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 11s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_07.jpg');
+  background-size: cover;
 }
 
 .cell_07 img {
@@ -275,10 +280,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: 11s multi_rotate1 linear infinite;
 }
 
 .cell_07 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 .cell_08 {
@@ -286,9 +293,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_08.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 12s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_08.jpg');
+  background-size: cover;
 }
 
 .cell_08 img {
@@ -299,10 +305,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: 12s multi_rotate1 linear infinite;
 }
 
 .cell_08 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 .cell_09 {
@@ -310,9 +318,8 @@ h3 {
   height: 500px;
   width: 500px;
   margin-bottom: 0px;
-  background-image: url('images/light/vase_on_09.jpg');
-  background-size: 500px 500px;
-  -webkit-animation: 13s multi_rotate1 linear infinite;
+  background-image: url('images/light/vase_off_09.jpg');
+  background-size: cover;
 }
 
 .cell_09 img {
@@ -323,10 +330,12 @@ h3 {
 	transition: all ease 1s;
   height: 500px;
   width: 500px;
+  opacity: 0;
+  -webkit-animation: 13s multi_rotate1 linear infinite;
 }
 
 .cell_09 img:hover {
-	opacity: 0;
+	opacity: 1;
 }
 
 
@@ -344,6 +353,7 @@ h3 {
 .center {
   margin: auto;
   width: 60%;
+  text-align: center;
 }
 
 .illustration {
