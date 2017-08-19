@@ -18,6 +18,8 @@ body {
   text-align: center;
 }
 
+
+
 h1 {
   font: 50px Big Caslon, Times, serif;
   font-weight: normal;
@@ -99,6 +101,33 @@ h3 {
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
   -webkit-text-stroke: 1px red;
+}
+
+#light_panel_01 {
+	background-image: url('images/light/vase_on_01.jpg');
+  background-size: 500px 500px ;
+	height: 500px;
+	width: 500px;
+}
+
+#light_panel_01 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 500px;
+  width: 500px;
+}
+
+#light_panel_01 img:hover {
+	opacity: 0;
+}
+
+.center {
+  display: block;
+  margin: auto;
+  width: 65%;
 }
 
 .illustration {
@@ -232,6 +261,7 @@ button {
      -moz-box-sizing: border-box; /* For legacy (Firefox <29) Gecko based browsers */
           box-sizing: border-box;
 }
+
 
 
 /* MOBILE */
