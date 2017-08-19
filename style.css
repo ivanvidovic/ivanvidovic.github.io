@@ -103,11 +103,16 @@ h3 {
   -webkit-text-stroke: 1px red;
 }
 
+
+/*
+
 #light_panel_01 {
 	background-image: url('images/light/vase_on_01.jpg');
   background-size: 500px 500px ;
 	height: 500px;
 	width: 500px;
+  float: left;
+  display: inline-block;
 }
 
 #light_panel_01 img {
@@ -124,10 +129,72 @@ h3 {
 	opacity: 0;
 }
 
+#light_panel_02 {
+	background-image: url('images/light/vase_on_02.jpg');
+  background-size: 500px 500px ;
+	height: 500px;
+	width: 500px;
+  float: left;
+}
+
+#light_panel_02 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 500px;
+  width: 500px;
+}
+
+#light_panel_02 img:hover {
+	opacity: 0;
+}
+
+#light_panel_03 {
+	background-image: url('images/light/vase_on_03.jpg');
+  background-size: 500px 500px;
+	height: 500px;
+	width: 500px;
+  clear: left;
+}
+
+#light_panel_03 img {
+	-webkit-transition: all ease 1s;
+	-moz-transition: all ease 1s;
+	-o-transition: all ease 1s;
+	-ms-transition: all ease 1s;
+	transition: all ease 1s;
+  height: 500px;
+  width: 500px;
+}
+
+#light_panel_03 img:hover {
+	opacity: 0;
+}
+
+*/
+
+
+.grid {
+  display: flex;                       /* establish flex container */
+  flex-wrap: wrap;                     /* enable flex items to wrap */
+}
+
+.cell {
+  flex: 50% 50%;                       /* don't grow, don't shrink, width */
+  height: 500px;
+  width: 500px;
+  margin-bottom: 0px;
+  background-image: url('images/light/vase_on_03.jpg');
+  background-size: 500px 500px;
+}
+
+
 .center {
   display: block;
   margin: auto;
-  width: 65%;
+  width: 1500px;
 }
 
 .illustration {
