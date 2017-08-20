@@ -116,8 +116,8 @@ h3 {
 
 .cell_01 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_01.jpg');
   background-size: cover;
@@ -129,8 +129,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: 5s multi_rotate1 linear infinite;
 }
@@ -141,8 +141,8 @@ h3 {
 
 .cell_02 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_08.jpg');
   background-size: cover;
@@ -154,8 +154,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: 6s multi_rotate1 linear infinite;
 }
@@ -166,8 +166,8 @@ h3 {
 
 .cell_03 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_05.jpg');
   background-size: cover;
@@ -179,8 +179,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: 7s multi_rotate1 linear infinite;
 }
@@ -191,8 +191,8 @@ h3 {
 
 .cell_04 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_04.jpg');
   background-size: cover;
@@ -204,8 +204,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: 8s multi_rotate1 linear infinite;
 }
@@ -216,8 +216,8 @@ h3 {
 
 .cell_05 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_09.jpg');
   background-size: cover;
@@ -229,8 +229,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: .5s multi_rotate1 linear infinite;
 }
@@ -241,8 +241,8 @@ h3 {
 
 .cell_06 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_02.jpg');
   background-size: cover;
@@ -254,8 +254,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: 10s multi_rotate1 linear infinite;
 }
@@ -266,8 +266,8 @@ h3 {
 
 .cell_07 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_03.jpg');
   background-size: cover;
@@ -279,8 +279,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: 11s multi_rotate1 linear infinite;
 }
@@ -291,8 +291,8 @@ h3 {
 
 .cell_08 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_07.jpg');
   background-size: cover;
@@ -304,8 +304,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: 12s multi_rotate1 linear infinite;
 }
@@ -316,8 +316,8 @@ h3 {
 
 .cell_09 {
   flex: 100% 100%;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   margin-bottom: 0px;
   background-image: url('images/light/vase_off_06.jpg');
   background-size: cover;
@@ -329,8 +329,8 @@ h3 {
 	-o-transition: all ease 1s;
 	-ms-transition: all ease 1s;
 	transition: all ease 1s;
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   opacity: 0;
   -webkit-animation: 13s multi_rotate1 linear infinite;
 }
@@ -384,8 +384,9 @@ h3 {
 
 .center {
   margin: auto;
-  width: 60%;
+  max-width: 60%;
   text-align: center;
+  align-self: center;
 }
 
 a:link {
@@ -534,7 +535,7 @@ button {
     height: 480px;
   }
 
-  .illustration {
+  .center {
     max-width: 65%;
   }
 }
@@ -551,7 +552,7 @@ button {
     height: 640px;
   }
 
-  .illustration {
+  .center {
     max-width: 65%px;
   }
 }
@@ -568,7 +569,7 @@ button {
     height: 960px;
   }
 
-  .illustration {
+  .center {
     max-width: 65%;
   }
 }
