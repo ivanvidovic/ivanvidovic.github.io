@@ -126,7 +126,7 @@ a:hover {
 }
 
 .social {
-  font: 15px Big Caslon, Times, serif;
+  font: 12px Big Caslon, Times, serif;
   font-weight: normal;
   letter-spacing: 12px;
   line-height: 30px;
@@ -414,6 +414,8 @@ a:hover {
     width: 960px;
   }
   .social {
+    font: 14px Big Caslon, Times, serif;
+    letter-spacing: 16px;
     width: 960px;
   }
 }
