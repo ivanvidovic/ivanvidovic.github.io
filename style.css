@@ -46,7 +46,7 @@ h1 {
 }
 
 h2 {
-  font: 30px Big Caslon, Times, serif;
+  font: Big Caslon, Times, serif;
   font-weight: normal;
   letter-spacing: 15px;
   text-transform: uppercase;
@@ -60,6 +60,10 @@ h2 {
   -webkit-transform: skewY(-5deg);
   transform: skewY(-5deg);
   -webkit-text-stroke: 2px red;
+  transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -webkit-transition: all .5s ease-in-out;
 }
 
 h3 {
@@ -326,6 +330,9 @@ a:hover {
   h1 {
     font-size: 40px;
   }
+  h2 {
+    font-size: 25px;
+  }
   iframe {
     width: 400px;
     height: 225px;
@@ -366,6 +373,9 @@ a:hover {
   h1 {
     font-size: 50px;
   }
+  h2 {
+    font-size: 28px;
+  }
   iframe {
     width: 640px;
     height: 360px;
@@ -405,6 +415,9 @@ a:hover {
   }
   h1 {
     font-size: 60px;
+  }
+  h2 {
+    font-size: 30px;
   }
   iframe {
     width: 960px;
