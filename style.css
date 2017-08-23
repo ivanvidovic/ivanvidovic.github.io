@@ -342,6 +342,7 @@ a:hover {
   }
   .social {
     width: 400px;
+    line-height: 30px;
   }
 }
 
@@ -385,6 +386,7 @@ a:hover {
   }
   .social {
     width: 640px;
+    line-height: 35px;
   }
 }
 
@@ -430,5 +432,6 @@ a:hover {
     font: 14px Big Caslon, Times, serif;
     letter-spacing: 16px;
     width: 960px;
+    line-height: 40px;
   }
 }
