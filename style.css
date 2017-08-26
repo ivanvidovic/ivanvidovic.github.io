@@ -247,7 +247,7 @@ a:hover {
 #rotate4 {
   margin: 0 0 -12px -6px;
   padding: 0px 0px 8px 2px;
-  -webkit-animation: 1s transform_rotate1 linear infinite;
+  -webkit-animation: .1s transform_rotate1 linear infinite;
 }
 
 #year {
