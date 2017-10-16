@@ -24,6 +24,14 @@ body#light {
   -o-animation: fadein 5s; /* Opera */
 }
 
+body#white {
+  background-color: #FFFFFF;
+  animation: fadein 5s;
+  -moz-animation: fadein 5s; /* Firefox */
+  -webkit-animation: fadein 5s; /* Safari and Chrome */
+  -o-animation: fadein 5s; /* Opera */
+}
+
 header {
   padding: 100px 0;
   text-align: center;
