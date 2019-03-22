@@ -302,7 +302,25 @@ a:hover {
 
 .square {
   width: 960px;
-  height: auto;
+  height: 960px;
+  transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -webkit-transition: all .5s ease-in-out;
+}
+
+.threebyone {
+  width: 960px;
+  height: 320px;
+  transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -webkit-transition: all .5s ease-in-out;
+}
+
+.threebytwo {
+  width: 960px;
+  height: 640px;
   transition: all .5s ease-in-out;
   -o-transition: all .5s ease-in-out;
   -moz-transition: all .5s ease-in-out;
