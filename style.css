@@ -310,7 +310,7 @@ a:hover {
 }
 
 .threebyone {
-  width: 960px;
+  width: auto;
   height: 320px;
   transition: all .5s ease-in-out;
   -o-transition: all .5s ease-in-out;
@@ -319,7 +319,7 @@ a:hover {
 }
 
 .threebytwo {
-  width: 960px;
+  width: auto;
   height: 640px;
   transition: all .5s ease-in-out;
   -o-transition: all .5s ease-in-out;
