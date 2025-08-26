@@ -44,6 +44,56 @@
         #info strong {
             font-weight: 600;
         }
+
+        /* --- START: Color Picker Menu CSS --- */
+        #color-picker-menu {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 15px;
+            z-index: 101;
+
+            /* Glassmorphism Style */
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            color: white;
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .color-picker-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .color-picker-row label {
+            width: 90px; /* Align the inputs */
+        }
+        .color-picker-row input[type="color"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .color-picker-row input[type="color"]::-webkit-color-swatch {
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .color-picker-row input[type="color"]::-moz-color-swatch {
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        /* --- END: Color Picker Menu CSS --- */
+
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
@@ -55,7 +105,16 @@
         <strong>Click:</strong> Focus &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Drag:</strong> Rotate &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Scroll / Pinch:</strong> Zoom &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Dbl-Click:</strong> Reset
     </div>
 
-    <!-- Import Three.js library -->
+    <div id="color-picker-menu">
+        <div class="color-picker-row">
+            <label for="colorPicker1">Center Color</label>
+            <input type="color" id="colorPicker1" value="#b4b4b1">
+        </div>
+        <div class="color-picker-row">
+            <label for="colorPicker2">Outer Color</label>
+            <input type="color" id="colorPicker2" value="#5a6474">
+        </div>
+    </div>
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
     <script type="importmap">
     {
@@ -313,6 +372,21 @@
         controls.addEventListener('start', () => {
             isResetting = false;
         });
+
+        // --- START: Color Picker Logic ---
+        const colorPicker1 = document.getElementById('colorPicker1');
+        const colorPicker2 = document.getElementById('colorPicker2');
+
+        colorPicker1.addEventListener('input', (event) => {
+            backgroundMaterial.uniforms.color1.value.set(event.target.value);
+        });
+
+        colorPicker2.addEventListener('input', (event) => {
+            backgroundMaterial.uniforms.color2.value.set(event.target.value);
+            // Also update the scene's fallback background color
+            scene.background.set(event.target.value);
+        });
+        // --- END: Color Picker Logic ---
 
         // --- Animation Loop ---
         function animate() {
