@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes, viewport-fit=cover">
     <title>3D Brochure Preview</title>
     <style>
         /* Basic styling to make the canvas fill the entire screen */
@@ -17,6 +17,7 @@
         }
         canvas {
             display: block;
+            touch-action: none;
         }
         /* Style for the instruction overlay */
         #info {
@@ -51,7 +52,7 @@
 <body>
 
     <div id="info">
-        <strong>Click:</strong> Focus &nbsp;&nbsp;|&nbsp;&nbsp; <strong>LMB Drag:</strong> Rotate &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Scroll:</strong> Zoom &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Dbl-Click:</strong> Reset
+        <strong>Click:</strong> Focus &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Drag:</strong> Rotate &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Scroll / Pinch:</strong> Zoom &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Dbl-Click:</strong> Reset
     </div>
 
     <!-- Import Three.js library -->
@@ -242,7 +243,7 @@
         controls.screenSpacePanning = false;
         controls.minDistance = 5;
         controls.maxDistance = 50;
-        controls.enableZoom = false;
+        controls.enableZoom = true;
 
         // --- Animation & Interaction Variables ---
         const cameraDirection = new THREE.Vector3();
@@ -264,14 +265,14 @@
 
 
         // --- Event Listeners ---
-        renderer.domElement.addEventListener('wheel', event => {
+        renderer.domElement.addEventListener('wheel', (event) => {
             event.preventDefault();
             isResetting = false;
             const zoomSpeed = 0.1;
             targetDistance += event.deltaY * zoomSpeed;
             targetDistance = THREE.MathUtils.clamp(targetDistance, controls.minDistance, controls.maxDistance);
             targetFocusDistance = targetDistance;
-        });
+        }, { passive: false });
 
         renderer.domElement.addEventListener('dblclick', () => {
             isResetting = true;
@@ -298,6 +299,14 @@
                     targetFocusPoint.copy(intersects[0].point);
                     targetFocusDistance = intersects[0].distance;
                 }
+            }
+        });
+
+        controls.addEventListener('change', () => {
+            if (!isResetting) {
+                const dist = camera.position.distanceTo(controls.target);
+                targetDistance = THREE.MathUtils.clamp(dist, controls.minDistance, controls.maxDistance);
+                targetFocusDistance = targetDistance;
             }
         });
 
