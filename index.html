@@ -91,12 +91,10 @@
           id="smooth"
           pose-stabilizer="posLerp: 0.14; rotLerp: 0.12; scaleLerp: 0.10; maxScaleStep: 0.015; holdMs: 250;"
         >
-          <a-gltf-model
-            id="arModel"
-            src="#model"
-            position="0 0 0"
-            rotation="0 0 0"
-            scale="0.35 0.35 0.35"
+          <!-- Touch + inertia go on the offset wrapper -->
+          <a-entity
+            id="modelOffset"
+            rotation="-90 0 0"
             touch-manipulator="
               rotateSpeed: 0.20;
               inertia: 0.92;
@@ -105,7 +103,15 @@
               maxScale: 1.25;
               lockPitch: true;
             "
-          ></a-gltf-model>
+          >
+            <a-gltf-model
+              id="arModel"
+              src="#model"
+              position="0 0 0"
+              rotation="0 0 0"
+              scale="0.35 0.35 0.35"
+            ></a-gltf-model>
+          </a-entity>
         </a-entity>
       </a-entity>
 
@@ -212,8 +218,8 @@
       // Touch controls + inertia + auto-rotate
       AFRAME.registerComponent("touch-manipulator", {
         schema: {
-          rotateSpeed: { type: "number", default: 0.20 },     // radians per px * 0.01
-          inertia: { type: "number", default: 0.92 },         // 0..1 friction, higher = longer glide
+          rotateSpeed: { type: "number", default: 0.20 },
+          inertia: { type: "number", default: 0.92 },
           autoRotateSpeed: { type: "number", default: 0.20 }, // degrees per second
           minScale: { type: "number", default: 0.12 },
           maxScale: { type: "number", default: 1.25 },
@@ -222,14 +228,13 @@
 
         init: function () {
           this._active = false;
-          this._mode = "none"; // "rotate" | "pinch"
+          this._mode = "none";
           this._lastX = 0;
           this._lastY = 0;
 
           this._startDist = 0;
           this._startScale = new THREE.Vector3();
 
-          // Angular velocity for inertia (radians per frame-ish)
           this._velYaw = 0;
           this._velPitch = 0;
 
@@ -297,7 +302,6 @@
             this._lastX = x;
             this._lastY = y;
 
-            // Fix direction: drag right => rotate right (positive yaw)
             const yawDelta = dx * 0.01 * this.data.rotateSpeed;
             const pitchDelta = dy * 0.01 * this.data.rotateSpeed;
 
@@ -305,10 +309,12 @@
 
             if (!this.data.lockPitch) {
               this.el.object3D.rotation.x += pitchDelta;
-              this.el.object3D.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this.el.object3D.rotation.x));
+              this.el.object3D.rotation.x = Math.max(
+                -Math.PI / 2,
+                Math.min(Math.PI / 2, this.el.object3D.rotation.x)
+              );
             }
 
-            // Update inertia velocity (simple last-delta capture)
             this._velYaw = yawDelta;
             this._velPitch = pitchDelta;
           }
@@ -348,30 +354,28 @@
 
           if (!this._isModelVisible()) return;
 
-          // Auto-rotate when not actively rotating/pinching
+          // Auto-rotate only when user is not touching
           if (!this._active) {
             const autoRadPerSec = (this.data.autoRotateSpeed * Math.PI) / 180;
             this.el.object3D.rotation.y += autoRadPerSec * dt;
           }
 
-          // Inertia apply when not active and velocity remains
+          // Inertia when not active
           if (!this._active) {
             this.el.object3D.rotation.y += this._velYaw;
             if (!this.data.lockPitch) this.el.object3D.rotation.x += this._velPitch;
 
-            // Friction
-            const f = Math.pow(this.data.inertia, 60 * dt); // frame-rate independent-ish
+            const f = Math.pow(this.data.inertia, 60 * dt);
             this._velYaw *= f;
             this._velPitch *= f;
 
-            // Stop tiny drift
             if (Math.abs(this._velYaw) < 0.00002) this._velYaw = 0;
             if (Math.abs(this._velPitch) < 0.00002) this._velPitch = 0;
           }
         }
       });
 
-      showHint("Drag to rotate. Pinch to scale.", 2000);
+      showHint("Drag to rotate. Pinch to scale.", 1600);
 
       anchorEl.addEventListener("targetFound", () => {
         showHint("", 0);
