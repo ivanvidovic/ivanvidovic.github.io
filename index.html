@@ -52,7 +52,6 @@
         z-index: 5;
         pointer-events: none;
       }
-
       #hint.show { opacity: 1; }
     </style>
   </head>
@@ -63,7 +62,7 @@
     <a-scene
       id="scene"
       embedded
-      renderer="alpha: true; antialias: true; colorManagement: true; physicallyCorrectLights: true;"
+      renderer="alpha: true; antialias: true; colorManagement: true; physicallyCorrectLights: true; toneMapping: ACESFilmic; toneMappingExposure: 1.25;"
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false"
       mindar-image="
@@ -83,27 +82,34 @@
         <a-asset-item id="model" src="./models/model.glb"></a-asset-item>
       </a-assets>
 
-      <a-entity light="type: ambient; intensity: 0.9"></a-entity>
-      <a-entity light="type: directional; intensity: 1" position="0 2 1"></a-entity>
+      <!-- Lighting: more fill + nicer metal read -->
+      <a-entity light="type: ambient; intensity: 1.35"></a-entity>
+      <a-entity light="type: hemisphere; intensity: 0.75; color: #ffffff; groundColor: #5a6a7a"></a-entity>
+
+      <!-- Key light -->
+      <a-entity light="type: directional; intensity: 1.35" position="1.2 2.4 1.8"></a-entity>
+      <!-- Rim / kicker -->
+      <a-entity light="type: directional; intensity: 0.9" position="-2 1.8 -1.2"></a-entity>
+      <!-- Soft fill point -->
+      <a-entity light="type: point; intensity: 0.55; distance: 8" position="0 2.2 0.9"></a-entity>
 
       <a-entity id="anchor" mindar-image-target="targetIndex: 0">
         <a-entity
           id="smooth"
           pose-stabilizer="posLerp: 0.14; rotLerp: 0.12; scaleLerp: 0.10; maxScaleStep: 0.015; holdMs: 250;"
         >
-          <!-- Spin and pinch happen on spinRoot -->
           <a-entity
             id="spinRoot"
             touch-manipulator="
               spinAxis: z;
               rotateSpeed: 0.20;
               inertia: 0.93;
-              autoRotateSpeed: 0.5;
-              minScale: 0.06;
-              maxScale: 10.0;
+              autoRotateSpeed: 0.65;
+              minScale: 0.05;
+              maxScale: 14.0;
             "
           >
-            <!-- Keep your orientation correction here -->
+            <!-- Your working orientation -->
             <a-entity id="modelOrient" rotation="90 0 0">
               <a-gltf-model
                 id="arModel"
@@ -219,16 +225,15 @@
           spinAxis: { type: "string", default: "z" },      // "x" | "y" | "z"
           rotateSpeed: { type: "number", default: 0.20 },
           inertia: { type: "number", default: 0.93 },
-          autoRotateSpeed: { type: "number", default: 0.18 }, // degrees per second
-          minScale: { type: "number", default: 0.06 },
-          maxScale: { type: "number", default: 10.0 }
+          autoRotateSpeed: { type: "number", default: 0.65 }, // degrees per second
+          minScale: { type: "number", default: 0.05 },
+          maxScale: { type: "number", default: 14.0 }
         },
 
         init: function () {
           this._active = false;
           this._mode = "none";
           this._lastX = 0;
-          this._lastY = 0;
 
           this._startDist = 0;
           this._startScale = new THREE.Vector3();
@@ -255,8 +260,15 @@
         },
 
         _isModelVisible: function () {
+          // More robust than only anchor.object3D.visible
           const anchor = document.getElementById("anchor");
-          return !!(anchor && anchor.object3D && anchor.object3D.visible === true);
+          if (!anchor) return false;
+
+          const aObjVisible = !!(anchor.object3D && anchor.object3D.visible);
+          const aAttrVisible = anchor.getAttribute("visible") !== false;
+
+          // MindAR toggles object3D.visible; attribute can remain true.
+          return aObjVisible || aAttrVisible;
         },
 
         _dist: function (t0, t1) {
@@ -281,7 +293,6 @@
             this._active = true;
             this._mode = "rotate";
             this._lastX = e.touches[0].clientX;
-            this._lastY = e.touches[0].clientY;
           } else if (e.touches.length === 2) {
             e.preventDefault();
             this._active = true;
@@ -304,7 +315,6 @@
 
             const spinDelta = dx * 0.01 * this.data.rotateSpeed;
             this._applySpinDelta(spinDelta);
-
             this._velSpin = spinDelta;
           }
 
@@ -332,7 +342,6 @@
           } else if (e.touches.length === 1) {
             this._mode = "rotate";
             this._lastX = e.touches[0].clientX;
-            this._lastY = e.touches[0].clientY;
           }
         },
 
@@ -343,11 +352,13 @@
 
           if (!this._isModelVisible()) return;
 
+          // Auto rotation (always visible + not touching)
           if (!this._active) {
             const autoRadPerSec = (this.data.autoRotateSpeed * Math.PI) / 180;
             this._applySpinDelta(autoRadPerSec * dt);
           }
 
+          // Inertia (only when not touching)
           if (!this._active) {
             this._applySpinDelta(this._velSpin);
 
