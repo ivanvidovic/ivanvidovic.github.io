@@ -53,6 +53,9 @@
     </style>
 
     <script>
+      // Global tracked flag (reliable for auto-rotate)
+      window.__AR_TRACKED__ = false;
+
       // -------- components (registered before <a-scene>) --------
 
       AFRAME.registerComponent("pose-stabilizer", {
@@ -162,10 +165,12 @@
           document.removeEventListener("touchend", this._onTouchEnd);
           document.removeEventListener("touchcancel", this._onTouchEnd);
         },
+
+        // This is the key fix: don't depend on anchor.object3D.visible
         _isTracked: function () {
-          const anchor = document.getElementById("anchor");
-          return !!(anchor && anchor.object3D && anchor.object3D.visible === true);
+          return window.__AR_TRACKED__ === true;
         },
+
         _dist: function (t0, t1) {
           const dx = t0.clientX - t1.clientX;
           const dy = t0.clientY - t1.clientY;
@@ -293,7 +298,6 @@
       }
 
       function rotateEquirectCanvasX(srcCanvas, shiftFraction = 0.25) {
-        // shiftFraction = 0.25 => 90° yaw
         const w = srcCanvas.width;
         const h = srcCanvas.height;
         const shiftPx = Math.round(w * shiftFraction);
@@ -303,7 +307,6 @@
         out.height = h;
         const ctx = out.getContext("2d");
 
-        // Draw wrapped shift: right part to left, left part to right
         ctx.drawImage(srcCanvas, w - shiftPx, 0, shiftPx, h, 0, 0, shiftPx, h);
         ctx.drawImage(srcCanvas, 0, 0, w - shiftPx, h, shiftPx, 0, w - shiftPx, h);
 
@@ -348,14 +351,14 @@
         const renderer = sceneEl.renderer;
         if (!renderer) return;
 
-        // Reduce brightness
-        renderer.toneMappingExposure = 1.05;
+        // Reduce brightness (25% more than before)
+        renderer.toneMappingExposure = 0.95;
 
         const pmrem = new THREE.PMREMGenerator(renderer);
         pmrem.compileEquirectangularShader();
 
         const base = makeChromeGradientEquirectCanvas(1024, 512);
-        const rotated = rotateEquirectCanvasX(base, 0.25); // 90° yaw
+        const rotated = rotateEquirectCanvasX(base, 0.25);
 
         const eqTex = new THREE.CanvasTexture(rotated);
         eqTex.mapping = THREE.EquirectangularReflectionMapping;
@@ -402,10 +405,10 @@
         <a-asset-item id="model" src="./models/model.glb"></a-asset-item>
       </a-assets>
 
-      <!-- Dialed down overall brightness -->
-      <a-entity light="type: ambient; intensity: 0.45"></a-entity>
-      <a-entity light="type: directional; intensity: 0.65" position="1.5 2.2 1.2"></a-entity>
-      <a-entity light="type: directional; intensity: 0.35" position="-2 1.6 -1.2"></a-entity>
+      <!-- Lighting down 25% more -->
+      <a-entity light="type: ambient; intensity: 0.34"></a-entity>
+      <a-entity light="type: directional; intensity: 0.49" position="1.5 2.2 1.2"></a-entity>
+      <a-entity light="type: directional; intensity: 0.26" position="-2 1.6 -1.2"></a-entity>
 
       <a-entity id="anchor" mindar-image-target="targetIndex: 0">
         <a-entity
@@ -458,10 +461,22 @@
       }
 
       showHint("Drag to spin. Pinch to scale.", 900);
-      anchorEl.addEventListener("targetFound", () => showHint("", 0));
-      anchorEl.addEventListener("targetLost", () => showHint("Target lost. Move closer and reduce glare."));
+
+      // Reliable tracked flag for auto-rotate
+      anchorEl.addEventListener("targetFound", () => {
+        window.__AR_TRACKED__ = true;
+        showHint("", 0);
+      });
+      anchorEl.addEventListener("targetLost", () => {
+        window.__AR_TRACKED__ = false;
+        showHint("Target lost. Move closer and reduce glare.");
+      });
 
       setupProceduralEnv(sceneEl, modelEl);
+
+      // Optional: if you want to *prove* auto-rotate is running, temporarily set:
+      // autoRotateSpeed: 1.2;
+      // in the touch-manipulator attributes above.
     </script>
   </body>
 </html>
