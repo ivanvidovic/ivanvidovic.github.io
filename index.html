@@ -37,7 +37,6 @@
         display: block !important;
       }
 
-      /* Minimal hint */
       #hint {
         position: fixed;
         left: 12px;
@@ -54,9 +53,7 @@
         pointer-events: none;
       }
 
-      #hint.show {
-        opacity: 1;
-      }
+      #hint.show { opacity: 1; }
     </style>
   </head>
 
@@ -95,10 +92,18 @@
           pose-stabilizer="posLerp: 0.14; rotLerp: 0.12; scaleLerp: 0.10; maxScaleStep: 0.015; holdMs: 250;"
         >
           <a-gltf-model
+            id="arModel"
             src="#model"
             position="0 0 0"
             rotation="0 0 0"
             scale="0.35 0.35 0.35"
+            touch-manipulator="
+              rotateSpeed: 0.18;
+              pinchSpeed: 1.0;
+              minScale: 0.12;
+              maxScale: 1.25;
+              lockPitch: true;
+            "
           ></a-gltf-model>
         </a-entity>
       </a-entity>
@@ -204,12 +209,141 @@
         }
       });
 
-      // UX: show a short hint on first load
-      showHint("Point at the symbol to place the 3D model.", 2000);
+      // Touch controls for the model
+      AFRAME.registerComponent("touch-manipulator", {
+        schema: {
+          rotateSpeed: { type: "number", default: 0.18 }, // degrees per px*0.01-ish
+          pinchSpeed: { type: "number", default: 1.0 },
+          minScale: { type: "number", default: 0.12 },
+          maxScale: { type: "number", default: 1.25 },
+          lockPitch: { type: "boolean", default: true }
+        },
 
-      // Clear lost message when found again, and hide after a beat
+        init: function () {
+          this._active = false;
+          this._touchMode = "none"; // "rotate" | "pinch"
+          this._lastX = 0;
+          this._lastY = 0;
+
+          this._startDist = 0;
+          this._startScale = new THREE.Vector3();
+
+          this._rot = new THREE.Euler(0, 0, 0, "YXZ");
+
+          this._onTouchStart = this._onTouchStart.bind(this);
+          this._onTouchMove = this._onTouchMove.bind(this);
+          this._onTouchEnd = this._onTouchEnd.bind(this);
+
+          // Attach to the whole document so user can drag anywhere.
+          document.addEventListener("touchstart", this._onTouchStart, { passive: false });
+          document.addEventListener("touchmove", this._onTouchMove, { passive: false });
+          document.addEventListener("touchend", this._onTouchEnd, { passive: false });
+          document.addEventListener("touchcancel", this._onTouchEnd, { passive: false });
+        },
+
+        remove: function () {
+          document.removeEventListener("touchstart", this._onTouchStart);
+          document.removeEventListener("touchmove", this._onTouchMove);
+          document.removeEventListener("touchend", this._onTouchEnd);
+          document.removeEventListener("touchcancel", this._onTouchEnd);
+        },
+
+        _isModelVisible: function () {
+          // Only manipulate when the tracked anchor is visible.
+          const anchor = document.getElementById("anchor");
+          if (!anchor) return false;
+          return anchor.object3D && anchor.object3D.visible === true;
+        },
+
+        _dist: function (t0, t1) {
+          const dx = t0.clientX - t1.clientX;
+          const dy = t0.clientY - t1.clientY;
+          return Math.hypot(dx, dy);
+        },
+
+        _onTouchStart: function (e) {
+          if (!this._isModelVisible()) return;
+
+          if (e.touches.length === 1) {
+            e.preventDefault();
+            this._active = true;
+            this._touchMode = "rotate";
+            this._lastX = e.touches[0].clientX;
+            this._lastY = e.touches[0].clientY;
+          } else if (e.touches.length === 2) {
+            e.preventDefault();
+            this._active = true;
+            this._touchMode = "pinch";
+            this._startDist = this._dist(e.touches[0], e.touches[1]);
+            this._startScale.copy(this.el.object3D.scale);
+          }
+        },
+
+        _onTouchMove: function (e) {
+          if (!this._active) return;
+          if (!this._isModelVisible()) return;
+
+          if (this._touchMode === "rotate" && e.touches.length === 1) {
+            e.preventDefault();
+
+            const x = e.touches[0].clientX;
+            const y = e.touches[0].clientY;
+
+            const dx = x - this._lastX;
+            const dy = y - this._lastY;
+
+            this._lastX = x;
+            this._lastY = y;
+
+            // Convert pixels to radians
+            const yaw = -dx * 0.01 * this.data.rotateSpeed;
+            const pitch = -dy * 0.01 * this.data.rotateSpeed;
+
+            // Read current rotation, then apply
+            this._rot.copy(this.el.object3D.rotation);
+            this._rot.y += yaw;
+
+            if (!this.data.lockPitch) {
+              this._rot.x += pitch;
+              // Clamp pitch to avoid flipping
+              this._rot.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this._rot.x));
+            }
+
+            this.el.object3D.rotation.set(this._rot.x, this._rot.y, this._rot.z);
+          }
+
+          if (this._touchMode === "pinch" && e.touches.length === 2) {
+            e.preventDefault();
+
+            const d = this._dist(e.touches[0], e.touches[1]);
+            if (this._startDist <= 0) return;
+
+            const ratio = d / this._startDist;
+            const s = Math.max(this.data.minScale, Math.min(this.data.maxScale, this._startScale.x * ratio * this.data.pinchSpeed));
+
+            this.el.object3D.scale.set(s, s, s);
+          }
+        },
+
+        _onTouchEnd: function (e) {
+          if (e.touches.length === 0) {
+            this._active = false;
+            this._touchMode = "none";
+            this._startDist = 0;
+          } else if (e.touches.length === 1) {
+            // Transition from pinch to rotate if one finger remains
+            this._touchMode = "rotate";
+            this._lastX = e.touches[0].clientX;
+            this._lastY = e.touches[0].clientY;
+          }
+        }
+      });
+
+      // UX hint
+      showHint("Drag to rotate. Pinch to scale.", 2200);
+
       anchorEl.addEventListener("targetFound", () => {
-        showHint("Locked", 600);
+        showHint("", 0);
       });
 
       anchorEl.addEventListener("targetLost", () => {
