@@ -2,18 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Keychain AR</title>
 
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
     <style>
-      html,
-      body {
+      html, body {
         margin: 0;
         padding: 0;
         height: 100%;
@@ -22,7 +18,6 @@
         font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
       }
 
-      /* Camera video behind WebGL */
       video {
         position: fixed !important;
         inset: 0 !important;
@@ -32,7 +27,6 @@
         z-index: 0 !important;
       }
 
-      /* WebGL canvas above video */
       canvas {
         position: fixed !important;
         inset: 0 !important;
@@ -43,104 +37,20 @@
         display: block !important;
       }
 
-      /* Minimal overlay */
-      #overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 5;
-        pointer-events: none;
-      }
-
-      #top {
-        position: absolute;
-        top: calc(env(safe-area-inset-top) + 12px);
-        left: 12px;
-        right: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        pointer-events: none;
-      }
-
-      #status {
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.92);
-        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
-        opacity: 0;
-        transition: opacity 160ms ease;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      #status.show {
-        opacity: 1;
-      }
-
-      #gate {
-        position: absolute;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        padding: 18px;
-        pointer-events: none;
-      }
-
-      #gateInner {
-        pointer-events: auto;
-        width: min(420px, 92vw);
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(0, 0, 0, 0.35);
-        padding: 16px;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-      }
-
-      #title {
-        margin: 0;
-        font-size: 16px;
-        font-weight: 650;
-        color: rgba(255, 255, 255, 0.92);
-        letter-spacing: 0.2px;
-      }
-
-      #copy {
-        margin: 8px 0 0 0;
-        font-size: 13px;
-        line-height: 1.35;
-        color: rgba(255, 255, 255, 0.78);
-      }
-
-      #startBtn {
-        margin-top: 12px;
-        width: 100%;
-        padding: 12px 14px;
-        border: 0;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.92);
-        color: #0b0b0c;
-        font-size: 14px;
-        font-weight: 650;
-        cursor: pointer;
-      }
-
-      #startBtn:active {
-        transform: translateY(1px);
-      }
-
+      /* Minimal hint */
       #hint {
-        position: absolute;
+        position: fixed;
         left: 12px;
         right: 12px;
         bottom: calc(env(safe-area-inset-bottom) + 12px);
+        text-align: center;
         font-size: 13px;
         line-height: 1.25;
-        color: rgba(255, 255, 255, 0.88);
-        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
         opacity: 0;
         transition: opacity 160ms ease;
-        text-align: center;
+        z-index: 5;
         pointer-events: none;
       }
 
@@ -151,24 +61,7 @@
   </head>
 
   <body>
-    <div id="overlay" aria-hidden="true">
-      <div id="top">
-        <div id="status"></div>
-        <div></div>
-      </div>
-
-      <div id="gate">
-        <div id="gateInner">
-          <h1 id="title">Keychain AR</h1>
-          <p id="copy">
-            Tap Start, allow camera access, then point at the symbol.
-          </p>
-          <button id="startBtn" type="button">Start</button>
-        </div>
-      </div>
-
-      <div id="hint">Keep the symbol in frame.</div>
-    </div>
+    <div id="hint"></div>
 
     <a-scene
       id="scene"
@@ -178,7 +71,7 @@
       device-orientation-permission-ui="enabled: false"
       mindar-image="
         imageTargetSrc: ./targets/targets.mind;
-        autoStart: false;
+        autoStart: true;
         uiScanning: true;
         uiLoading: true;
 
@@ -214,26 +107,30 @@
     </a-scene>
 
     <script>
-      const gate = document.getElementById("gate");
-      const startBtn = document.getElementById("startBtn");
-      const statusEl = document.getElementById("status");
       const hintEl = document.getElementById("hint");
-
-      const sceneEl = document.getElementById("scene");
       const anchorEl = document.getElementById("anchor");
 
-      function setStatus(msg, show = true) {
-        statusEl.textContent = msg || "";
-        if (show && msg) statusEl.classList.add("show");
-        else statusEl.classList.remove("show");
-      }
+      let hintTimer = null;
 
-      function setHint(msg, show = true) {
-        if (msg) hintEl.textContent = msg;
-        if (show) hintEl.classList.add("show");
+      function showHint(msg, autoHideMs = 0) {
+        if (hintTimer) {
+          clearTimeout(hintTimer);
+          hintTimer = null;
+        }
+        hintEl.textContent = msg || "";
+        if (msg) hintEl.classList.add("show");
         else hintEl.classList.remove("show");
+
+        if (msg && autoHideMs > 0) {
+          hintTimer = setTimeout(() => {
+            hintEl.classList.remove("show");
+            hintEl.textContent = "";
+            hintTimer = null;
+          }, autoHideMs);
+        }
       }
 
+      // Smooth tracking pose from MindAR
       AFRAME.registerComponent("pose-stabilizer", {
         schema: {
           posLerp: { type: "number", default: 0.14 },
@@ -248,7 +145,6 @@
           this._smQuat = new THREE.Quaternion();
           this._smScale = new THREE.Vector3(1, 1, 1);
           this._tmpScale = new THREE.Vector3();
-
           this._hasInit = false;
           this._lastSeen = performance.now();
           this._visible = false;
@@ -308,42 +204,17 @@
         }
       });
 
-      async function startAR() {
-        try {
-          setStatus("Starting camera…", true);
+      // UX: show a short hint on first load
+      showHint("Point at the symbol to place the 3D model.", 2000);
 
-          if (!sceneEl.hasLoaded) {
-            await new Promise((resolve) =>
-              sceneEl.addEventListener("loaded", resolve, { once: true })
-            );
-          }
-
-          const mindarSystem = sceneEl.systems["mindar-image-system"];
-          await mindarSystem.start();
-
-          gate.style.display = "none";
-          setStatus("", false);
-          setHint("Keep the symbol in frame.", true);
-
-          setTimeout(() => setHint("", false), 1400);
-        } catch (e) {
-          console.error(e);
-          setStatus("Camera start failed. Refresh and try again.", true);
-        }
-      }
-
-      startBtn.addEventListener("click", startAR);
-
+      // Clear lost message when found again, and hide after a beat
       anchorEl.addEventListener("targetFound", () => {
-        setStatus("Locked", true);
-        setTimeout(() => setStatus("", false), 600);
+        showHint("Locked", 600);
       });
 
       anchorEl.addEventListener("targetLost", () => {
-        setHint("Target lost. Move closer and reduce glare.", true);
+        showHint("Target lost. Move closer and reduce glare.");
       });
-
-      setStatus("Ready", true);
     </script>
   </body>
 </html>
