@@ -91,25 +91,24 @@
           id="smooth"
           pose-stabilizer="posLerp: 0.14; rotLerp: 0.12; scaleLerp: 0.10; maxScaleStep: 0.015; holdMs: 250;"
         >
-          <!-- spinRoot is the only node we rotate and scale -->
+          <!-- Spin and pinch happen on spinRoot -->
           <a-entity
             id="spinRoot"
             touch-manipulator="
+              spinAxis: z;
               rotateSpeed: 0.20;
               inertia: 0.93;
               autoRotateSpeed: 0.18;
               minScale: 0.06;
               maxScale: 10.0;
-              lockPitch: true;
             "
           >
-            <!-- modelOrient only fixes the model so it lies flat on the target -->
-            <!-- If this ends up flipped the wrong way on your device, change -90 to 90 -->
+            <!-- Keep your orientation correction here -->
             <a-entity id="modelOrient" rotation="-90 0 0">
               <a-gltf-model
                 id="arModel"
                 src="#model"
-                scale="1.00 1.00 1.00"
+                scale="1.05 1.05 1.05"
               ></a-gltf-model>
             </a-entity>
           </a-entity>
@@ -217,12 +216,12 @@
 
       AFRAME.registerComponent("touch-manipulator", {
         schema: {
+          spinAxis: { type: "string", default: "z" },      // "x" | "y" | "z"
           rotateSpeed: { type: "number", default: 0.20 },
           inertia: { type: "number", default: 0.93 },
           autoRotateSpeed: { type: "number", default: 0.18 }, // degrees per second
           minScale: { type: "number", default: 0.06 },
-          maxScale: { type: "number", default: 10.0 },
-          lockPitch: { type: "boolean", default: true }
+          maxScale: { type: "number", default: 10.0 }
         },
 
         init: function () {
@@ -234,8 +233,7 @@
           this._startDist = 0;
           this._startScale = new THREE.Vector3();
 
-          this._velYaw = 0;
-          this._velPitch = 0;
+          this._velSpin = 0;
 
           this._onTouchStart = this._onTouchStart.bind(this);
           this._onTouchMove = this._onTouchMove.bind(this);
@@ -267,6 +265,14 @@
           return Math.hypot(dx, dy);
         },
 
+        _applySpinDelta: function (delta) {
+          const r = this.el.object3D.rotation;
+          const a = this.data.spinAxis;
+          if (a === "x") r.x += delta;
+          else if (a === "y") r.y += delta;
+          else r.z += delta;
+        },
+
         _onTouchStart: function (e) {
           if (!this._isModelVisible()) return;
 
@@ -293,19 +299,13 @@
             e.preventDefault();
 
             const x = e.touches[0].clientX;
-            const y = e.touches[0].clientY;
-
             const dx = x - this._lastX;
-            const dy = y - this._lastY;
-
             this._lastX = x;
-            this._lastY = y;
 
-            const yawDelta = dx * 0.01 * this.data.rotateSpeed;
-            this.el.object3D.rotation.y += yawDelta;
+            const spinDelta = dx * 0.01 * this.data.rotateSpeed;
+            this._applySpinDelta(spinDelta);
 
-            this._velYaw = yawDelta;
-            this._velPitch = dy * 0.01 * this.data.rotateSpeed;
+            this._velSpin = spinDelta;
           }
 
           if (this._mode === "pinch" && e.touches.length === 2) {
@@ -345,21 +345,21 @@
 
           if (!this._active) {
             const autoRadPerSec = (this.data.autoRotateSpeed * Math.PI) / 180;
-            this.el.object3D.rotation.y += autoRadPerSec * dt;
+            this._applySpinDelta(autoRadPerSec * dt);
           }
 
           if (!this._active) {
-            this.el.object3D.rotation.y += this._velYaw;
+            this._applySpinDelta(this._velSpin);
 
             const f = Math.pow(this.data.inertia, 60 * dt);
-            this._velYaw *= f;
+            this._velSpin *= f;
 
-            if (Math.abs(this._velYaw) < 0.00002) this._velYaw = 0;
+            if (Math.abs(this._velSpin) < 0.00002) this._velSpin = 0;
           }
         }
       });
 
-      showHint("Drag to spin. Pinch to scale.", 1600);
+      showHint("Drag to spin. Pinch to scale.", 1400);
 
       anchorEl.addEventListener("targetFound", () => {
         showHint("", 0);
