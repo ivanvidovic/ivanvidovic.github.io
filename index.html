@@ -2,69 +2,91 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>Keychain AR</title>
 
+    <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+    <!-- MindAR Image Tracking -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
-<style>
-  html, body {
-    margin: 0;
-    height: 100%;
-    overflow: hidden;
-    background: transparent;
-  }
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+      }
 
-  video {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    z-index: 0 !important;
-  }
+      /* Camera video layer */
+      video {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        z-index: 0 !important;
+      }
 
-  a-scene, canvas {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: transparent !important;
-  }
+      /* AR canvas layer */
+      canvas {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: transparent !important;
+        z-index: 1 !important;
+      }
 
-  canvas { z-index: 1 !important; }
-
-  #hint {
-    position: fixed;
-    left: 0; right: 0; top: 0;
-    padding: 12px 14px;
-    font: 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    color: #fff;
-    background: rgba(0,0,0,.55);
-    z-index: 2 !important;
-  }
-</style>
-
+      /* Instruction UI */
+      #hint {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        padding: 14px;
+        font: 14px system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.55);
+        text-align: center;
+        z-index: 2;
+      }
+    </style>
   </head>
 
   <body>
-    <div id="hint">Allow camera, then point at the keychain symbol.</div>
+    <div id="hint">
+      Allow camera access, then point at the keychain symbol.
+    </div>
 
-<a-scene
-  mindar-image="imageTargetSrc: ./targets/targets.mind; autoStart: true; uiScanning: true; uiLoading: true;"
-  renderer="colorManagement: true; physicallyCorrectLights: true; alpha: true; transparent: true;"
-  vr-mode-ui="enabled: false"
-  device-orientation-permission-ui="enabled: false"
-  embedded
->
-
+    <a-scene
+      embedded
+      renderer="alpha: true; antialias: true; colorManagement: true; physicallyCorrectLights: true;"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      mindar-image="imageTargetSrc: ./targets/targets.mind; autoStart: true; uiScanning: true; uiLoading: true;"
+    >
       <a-assets>
         <a-asset-item id="model" src="./models/model.glb"></a-asset-item>
       </a-assets>
 
+      <!-- Light setup -->
+      <a-entity light="type: ambient; intensity: 0.8"></a-entity>
+      <a-entity light="type: directional; intensity: 1" position="0 2 1"></a-entity>
+
+      <!-- Image target anchor -->
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model src="#model" scale="0.35 0.35 0.35"></a-gltf-model>
+        <a-gltf-model
+          src="#model"
+          position="0 0 0"
+          rotation="0 0 0"
+          scale="0.35 0.35 0.35"
+        ></a-gltf-model>
       </a-entity>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
