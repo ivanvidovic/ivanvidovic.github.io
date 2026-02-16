@@ -51,12 +51,14 @@
   <body>
     <div id="hint">Allow camera, then point at the keychain symbol.</div>
 
-    <a-scene
-      mindar-image="imageTargetSrc: ./targets/targets.mind; autoStart: true; uiScanning: true; uiLoading: true;"
-      renderer="colorManagement: true; physicallyCorrectLights: true;"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-    >
+<a-scene
+  mindar-image="imageTargetSrc: ./targets/targets.mind; autoStart: true; uiScanning: true; uiLoading: true;"
+  renderer="colorManagement: true; physicallyCorrectLights: true; alpha: true; transparent: true;"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false"
+  embedded
+>
+
       <a-assets>
         <a-asset-item id="model" src="./models/model.glb"></a-asset-item>
       </a-assets>
