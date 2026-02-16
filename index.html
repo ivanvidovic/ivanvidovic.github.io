@@ -98,8 +98,9 @@
             rotation="0 0 0"
             scale="0.35 0.35 0.35"
             touch-manipulator="
-              rotateSpeed: 0.18;
-              pinchSpeed: 1.0;
+              rotateSpeed: 0.20;
+              inertia: 0.92;
+              autoRotateSpeed: 0.20;
               minScale: 0.12;
               maxScale: 1.25;
               lockPitch: true;
@@ -116,7 +117,6 @@
       const anchorEl = document.getElementById("anchor");
 
       let hintTimer = null;
-
       function showHint(msg, autoHideMs = 0) {
         if (hintTimer) {
           clearTimeout(hintTimer);
@@ -209,11 +209,12 @@
         }
       });
 
-      // Touch controls for the model
+      // Touch controls + inertia + auto-rotate
       AFRAME.registerComponent("touch-manipulator", {
         schema: {
-          rotateSpeed: { type: "number", default: 0.18 }, // degrees per px*0.01-ish
-          pinchSpeed: { type: "number", default: 1.0 },
+          rotateSpeed: { type: "number", default: 0.20 },     // radians per px * 0.01
+          inertia: { type: "number", default: 0.92 },         // 0..1 friction, higher = longer glide
+          autoRotateSpeed: { type: "number", default: 0.20 }, // degrees per second
           minScale: { type: "number", default: 0.12 },
           maxScale: { type: "number", default: 1.25 },
           lockPitch: { type: "boolean", default: true }
@@ -221,24 +222,27 @@
 
         init: function () {
           this._active = false;
-          this._touchMode = "none"; // "rotate" | "pinch"
+          this._mode = "none"; // "rotate" | "pinch"
           this._lastX = 0;
           this._lastY = 0;
 
           this._startDist = 0;
           this._startScale = new THREE.Vector3();
 
-          this._rot = new THREE.Euler(0, 0, 0, "YXZ");
+          // Angular velocity for inertia (radians per frame-ish)
+          this._velYaw = 0;
+          this._velPitch = 0;
 
           this._onTouchStart = this._onTouchStart.bind(this);
           this._onTouchMove = this._onTouchMove.bind(this);
           this._onTouchEnd = this._onTouchEnd.bind(this);
 
-          // Attach to the whole document so user can drag anywhere.
           document.addEventListener("touchstart", this._onTouchStart, { passive: false });
           document.addEventListener("touchmove", this._onTouchMove, { passive: false });
           document.addEventListener("touchend", this._onTouchEnd, { passive: false });
           document.addEventListener("touchcancel", this._onTouchEnd, { passive: false });
+
+          this._lastTick = performance.now();
         },
 
         remove: function () {
@@ -249,10 +253,8 @@
         },
 
         _isModelVisible: function () {
-          // Only manipulate when the tracked anchor is visible.
           const anchor = document.getElementById("anchor");
-          if (!anchor) return false;
-          return anchor.object3D && anchor.object3D.visible === true;
+          return !!(anchor && anchor.object3D && anchor.object3D.visible === true);
         },
 
         _dist: function (t0, t1) {
@@ -267,13 +269,13 @@
           if (e.touches.length === 1) {
             e.preventDefault();
             this._active = true;
-            this._touchMode = "rotate";
+            this._mode = "rotate";
             this._lastX = e.touches[0].clientX;
             this._lastY = e.touches[0].clientY;
           } else if (e.touches.length === 2) {
             e.preventDefault();
             this._active = true;
-            this._touchMode = "pinch";
+            this._mode = "pinch";
             this._startDist = this._dist(e.touches[0], e.touches[1]);
             this._startScale.copy(this.el.object3D.scale);
           }
@@ -283,7 +285,7 @@
           if (!this._active) return;
           if (!this._isModelVisible()) return;
 
-          if (this._touchMode === "rotate" && e.touches.length === 1) {
+          if (this._mode === "rotate" && e.touches.length === 1) {
             e.preventDefault();
 
             const x = e.touches[0].clientX;
@@ -295,31 +297,33 @@
             this._lastX = x;
             this._lastY = y;
 
-            // Convert pixels to radians
-            const yaw = -dx * 0.01 * this.data.rotateSpeed;
-            const pitch = -dy * 0.01 * this.data.rotateSpeed;
+            // Fix direction: drag right => rotate right (positive yaw)
+            const yawDelta = dx * 0.01 * this.data.rotateSpeed;
+            const pitchDelta = dy * 0.01 * this.data.rotateSpeed;
 
-            // Read current rotation, then apply
-            this._rot.copy(this.el.object3D.rotation);
-            this._rot.y += yaw;
+            this.el.object3D.rotation.y += yawDelta;
 
             if (!this.data.lockPitch) {
-              this._rot.x += pitch;
-              // Clamp pitch to avoid flipping
-              this._rot.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this._rot.x));
+              this.el.object3D.rotation.x += pitchDelta;
+              this.el.object3D.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this.el.object3D.rotation.x));
             }
 
-            this.el.object3D.rotation.set(this._rot.x, this._rot.y, this._rot.z);
+            // Update inertia velocity (simple last-delta capture)
+            this._velYaw = yawDelta;
+            this._velPitch = pitchDelta;
           }
 
-          if (this._touchMode === "pinch" && e.touches.length === 2) {
+          if (this._mode === "pinch" && e.touches.length === 2) {
             e.preventDefault();
 
             const d = this._dist(e.touches[0], e.touches[1]);
             if (this._startDist <= 0) return;
 
             const ratio = d / this._startDist;
-            const s = Math.max(this.data.minScale, Math.min(this.data.maxScale, this._startScale.x * ratio * this.data.pinchSpeed));
+            const s = Math.max(
+              this.data.minScale,
+              Math.min(this.data.maxScale, this._startScale.x * ratio)
+            );
 
             this.el.object3D.scale.set(s, s, s);
           }
@@ -328,19 +332,46 @@
         _onTouchEnd: function (e) {
           if (e.touches.length === 0) {
             this._active = false;
-            this._touchMode = "none";
+            this._mode = "none";
             this._startDist = 0;
           } else if (e.touches.length === 1) {
-            // Transition from pinch to rotate if one finger remains
-            this._touchMode = "rotate";
+            this._mode = "rotate";
             this._lastX = e.touches[0].clientX;
             this._lastY = e.touches[0].clientY;
+          }
+        },
+
+        tick: function () {
+          const now = performance.now();
+          const dt = Math.min(0.05, (now - this._lastTick) / 1000);
+          this._lastTick = now;
+
+          if (!this._isModelVisible()) return;
+
+          // Auto-rotate when not actively rotating/pinching
+          if (!this._active) {
+            const autoRadPerSec = (this.data.autoRotateSpeed * Math.PI) / 180;
+            this.el.object3D.rotation.y += autoRadPerSec * dt;
+          }
+
+          // Inertia apply when not active and velocity remains
+          if (!this._active) {
+            this.el.object3D.rotation.y += this._velYaw;
+            if (!this.data.lockPitch) this.el.object3D.rotation.x += this._velPitch;
+
+            // Friction
+            const f = Math.pow(this.data.inertia, 60 * dt); // frame-rate independent-ish
+            this._velYaw *= f;
+            this._velPitch *= f;
+
+            // Stop tiny drift
+            if (Math.abs(this._velYaw) < 0.00002) this._velYaw = 0;
+            if (Math.abs(this._velPitch) < 0.00002) this._velPitch = 0;
           }
         }
       });
 
-      // UX hint
-      showHint("Drag to rotate. Pinch to scale.", 2200);
+      showHint("Drag to rotate. Pinch to scale.", 2000);
 
       anchorEl.addEventListener("targetFound", () => {
         showHint("", 0);
