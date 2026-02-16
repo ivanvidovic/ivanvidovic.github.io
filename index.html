@@ -91,10 +91,9 @@
           id="smooth"
           pose-stabilizer="posLerp: 0.14; rotLerp: 0.12; scaleLerp: 0.10; maxScaleStep: 0.015; holdMs: 250;"
         >
-          <!-- Touch + inertia go on the offset wrapper -->
+          <!-- spinRoot stays upright, so its Y axis is vertical -->
           <a-entity
-            id="modelOffset"
-            rotation="-90 0 0"
+            id="spinRoot"
             touch-manipulator="
               rotateSpeed: 0.20;
               inertia: 0.92;
@@ -104,13 +103,16 @@
               lockPitch: true;
             "
           >
-            <a-gltf-model
-              id="arModel"
-              src="#model"
-              position="0 0 0"
-              rotation="0 0 0"
-              scale="0.35 0.35 0.35"
-            ></a-gltf-model>
+            <!-- modelOrient applies the 90 degree correction only -->
+            <a-entity id="modelOrient" rotation="90 0 0">
+              <a-gltf-model
+                id="arModel"
+                src="#model"
+                position="0 0 0"
+                rotation="0 0 0"
+                scale="0.35 0.35 0.35"
+              ></a-gltf-model>
+            </a-entity>
           </a-entity>
         </a-entity>
       </a-entity>
@@ -141,7 +143,6 @@
         }
       }
 
-      // Smooth tracking pose from MindAR
       AFRAME.registerComponent("pose-stabilizer", {
         schema: {
           posLerp: { type: "number", default: 0.14 },
@@ -215,7 +216,6 @@
         }
       });
 
-      // Touch controls + inertia + auto-rotate
       AFRAME.registerComponent("touch-manipulator", {
         schema: {
           rotateSpeed: { type: "number", default: 0.20 },
@@ -354,13 +354,11 @@
 
           if (!this._isModelVisible()) return;
 
-          // Auto-rotate only when user is not touching
           if (!this._active) {
             const autoRadPerSec = (this.data.autoRotateSpeed * Math.PI) / 180;
             this.el.object3D.rotation.y += autoRadPerSec * dt;
           }
 
-          // Inertia when not active
           if (!this._active) {
             this.el.object3D.rotation.y += this._velYaw;
             if (!this.data.lockPitch) this.el.object3D.rotation.x += this._velPitch;
@@ -375,7 +373,7 @@
         }
       });
 
-      showHint("Drag to rotate. Pinch to scale.", 1600);
+      showHint("Drag to spin. Pinch to scale.", 1600);
 
       anchorEl.addEventListener("targetFound", () => {
         showHint("", 0);
