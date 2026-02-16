@@ -8,16 +8,44 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
-    <style>
-      html, body { margin: 0; height: 100%; overflow: hidden; background: #000; }
-      #hint {
-        position: fixed; left: 0; right: 0; top: 0;
-        padding: 12px 14px;
-        font: 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
-        color: #fff; background: rgba(0,0,0,.55);
-        z-index: 10;
-      }
-    </style>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  video {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+  }
+
+  a-scene, canvas {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+  }
+
+  canvas { z-index: 1 !important; }
+
+  #hint {
+    position: fixed;
+    left: 0; right: 0; top: 0;
+    padding: 12px 14px;
+    font: 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    color: #fff;
+    background: rgba(0,0,0,.55);
+    z-index: 2 !important;
+  }
+</style>
+
   </head>
 
   <body>
