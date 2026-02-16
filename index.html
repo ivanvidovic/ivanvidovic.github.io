@@ -91,7 +91,7 @@
           id="smooth"
           pose-stabilizer="posLerp: 0.14; rotLerp: 0.12; scaleLerp: 0.10; maxScaleStep: 0.015; holdMs: 250;"
         >
-          <!-- spinRoot is what we rotate and scale (axis goes through its local Y) -->
+          <!-- spinRoot is the only node we rotate and scale -->
           <a-entity
             id="spinRoot"
             touch-manipulator="
@@ -99,21 +99,18 @@
               inertia: 0.93;
               autoRotateSpeed: 0.18;
               minScale: 0.06;
-              maxScale: 6.0;
+              maxScale: 10.0;
               lockPitch: true;
             "
           >
-            <!-- modelOrient keeps your correct orientation -->
-            <a-entity id="modelOrient" rotation="90 0 0">
-              <!-- pivotCenter recenters the GLB so rotation happens through the model center -->
-              <a-entity id="pivotCenter">
-                <a-gltf-model
-                  id="arModel"
-                  src="#model"
-                  scale="0.35 0.35 0.35"
-                  center-pivot="mode: center; recenterY: true;"
-                ></a-gltf-model>
-              </a-entity>
+            <!-- modelOrient only fixes the model so it lies flat on the target -->
+            <!-- If this ends up flipped the wrong way on your device, change -90 to 90 -->
+            <a-entity id="modelOrient" rotation="-90 0 0">
+              <a-gltf-model
+                id="arModel"
+                src="#model"
+                scale="0.35 0.35 0.35"
+              ></a-gltf-model>
             </a-entity>
           </a-entity>
         </a-entity>
@@ -145,44 +142,6 @@
         }
       }
 
-      // Recenters a loaded GLB so its pivot is at its bounding box center.
-      // This fixes "rotation axis is off to the side" problems.
-      AFRAME.registerComponent("center-pivot", {
-        schema: {
-          mode: { type: "string", default: "center" }, // "center" or "centerXZ"
-          recenterY: { type: "boolean", default: true }
-        },
-
-        init: function () {
-          this._didCenter = false;
-          this.el.addEventListener("model-loaded", () => {
-            if (this._didCenter) return;
-
-            const obj = this.el.getObject3D("mesh");
-            if (!obj) return;
-
-            const box = new THREE.Box3().setFromObject(obj);
-            if (!isFinite(box.min.x) || !isFinite(box.max.x)) return;
-
-            const center = new THREE.Vector3();
-            box.getCenter(center);
-
-            // Option to only center in XZ (keep original height) if you want.
-            const dx = center.x;
-            const dy = this.data.recenterY ? center.y : 0;
-            const dz = center.z;
-
-            // Move the mesh so the origin becomes the center.
-            obj.position.x -= dx;
-            obj.position.y -= dy;
-            obj.position.z -= dz;
-
-            this._didCenter = true;
-          });
-        }
-      });
-
-      // Smooth tracking pose from MindAR
       AFRAME.registerComponent("pose-stabilizer", {
         schema: {
           posLerp: { type: "number", default: 0.14 },
@@ -256,14 +215,13 @@
         }
       });
 
-      // Touch controls + inertia + auto-rotate
       AFRAME.registerComponent("touch-manipulator", {
         schema: {
           rotateSpeed: { type: "number", default: 0.20 },
           inertia: { type: "number", default: 0.93 },
           autoRotateSpeed: { type: "number", default: 0.18 }, // degrees per second
           minScale: { type: "number", default: 0.06 },
-          maxScale: { type: "number", default: 6.0 },
+          maxScale: { type: "number", default: 10.0 },
           lockPitch: { type: "boolean", default: true }
         },
 
@@ -344,20 +302,10 @@
             this._lastY = y;
 
             const yawDelta = dx * 0.01 * this.data.rotateSpeed;
-            const pitchDelta = dy * 0.01 * this.data.rotateSpeed;
-
             this.el.object3D.rotation.y += yawDelta;
 
-            if (!this.data.lockPitch) {
-              this.el.object3D.rotation.x += pitchDelta;
-              this.el.object3D.rotation.x = Math.max(
-                -Math.PI / 2,
-                Math.min(Math.PI / 2, this.el.object3D.rotation.x)
-              );
-            }
-
             this._velYaw = yawDelta;
-            this._velPitch = pitchDelta;
+            this._velPitch = dy * 0.01 * this.data.rotateSpeed;
           }
 
           if (this._mode === "pinch" && e.touches.length === 2) {
@@ -402,14 +350,11 @@
 
           if (!this._active) {
             this.el.object3D.rotation.y += this._velYaw;
-            if (!this.data.lockPitch) this.el.object3D.rotation.x += this._velPitch;
 
             const f = Math.pow(this.data.inertia, 60 * dt);
             this._velYaw *= f;
-            this._velPitch *= f;
 
             if (Math.abs(this._velYaw) < 0.00002) this._velYaw = 0;
-            if (Math.abs(this._velPitch) < 0.00002) this._velPitch = 0;
           }
         }
       });
