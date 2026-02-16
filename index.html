@@ -53,7 +53,7 @@
     </style>
 
     <script>
-      // Register components BEFORE <a-scene>
+      // -------- components (registered before <a-scene>) --------
 
       AFRAME.registerComponent("pose-stabilizer", {
         schema: {
@@ -128,15 +128,14 @@
 
       AFRAME.registerComponent("touch-manipulator", {
         schema: {
-          spinAxis: { type: "string", default: "z" },            // "x" | "y" | "z"
+          spinAxis: { type: "string", default: "z" },
           rotateSpeed: { type: "number", default: 0.22 },
-          inertia: { type: "number", default: 0.988 },          // longer glide
-          inertiaBoost: { type: "number", default: 1.8 },       // heavier flick
-          autoRotateSpeed: { type: "number", default: 0.35 },   // degrees/sec base spin
+          inertia: { type: "number", default: 0.988 },
+          inertiaBoost: { type: "number", default: 1.8 },
+          autoRotateSpeed: { type: "number", default: 0.35 }, // deg/sec base spin
           minScale: { type: "number", default: 0.05 },
           maxScale: { type: "number", default: 14.0 }
         },
-
         init: function () {
           this._active = false;
           this._mode = "none";
@@ -157,25 +156,21 @@
           document.addEventListener("touchend", this._onTouchEnd, { passive: false });
           document.addEventListener("touchcancel", this._onTouchEnd, { passive: false });
         },
-
         remove: function () {
           document.removeEventListener("touchstart", this._onTouchStart);
           document.removeEventListener("touchmove", this._onTouchMove);
           document.removeEventListener("touchend", this._onTouchEnd);
           document.removeEventListener("touchcancel", this._onTouchEnd);
         },
-
         _isTracked: function () {
           const anchor = document.getElementById("anchor");
           return !!(anchor && anchor.object3D && anchor.object3D.visible === true);
         },
-
         _dist: function (t0, t1) {
           const dx = t0.clientX - t1.clientX;
           const dy = t0.clientY - t1.clientY;
           return Math.hypot(dx, dy);
         },
-
         _applySpinDelta: function (delta) {
           const r = this.el.object3D.rotation;
           const a = this.data.spinAxis;
@@ -183,7 +178,6 @@
           else if (a === "y") r.y += delta;
           else r.z += delta;
         },
-
         _onTouchStart: function (e) {
           if (!this._isTracked()) return;
 
@@ -200,27 +194,23 @@
             this._startScale.copy(this.el.object3D.scale);
           }
         },
-
         _onTouchMove: function (e) {
           if (!this._active) return;
           if (!this._isTracked()) return;
 
           if (this._mode === "rotate" && e.touches.length === 1) {
             e.preventDefault();
-
             const x = e.touches[0].clientX;
             const dx = x - this._lastX;
             this._lastX = x;
 
             const spinDelta = dx * 0.01 * this.data.rotateSpeed;
             this._applySpinDelta(spinDelta);
-
             this._velSpin = spinDelta * this.data.inertiaBoost;
           }
 
           if (this._mode === "pinch" && e.touches.length === 2) {
             e.preventDefault();
-
             const d = this._dist(e.touches[0], e.touches[1]);
             if (this._startDist <= 0) return;
 
@@ -229,11 +219,9 @@
               this.data.minScale,
               Math.min(this.data.maxScale, this._startScale.x * ratio)
             );
-
             this.el.object3D.scale.set(s, s, s);
           }
         },
-
         _onTouchEnd: function (e) {
           if (e.touches.length === 0) {
             this._active = false;
@@ -244,7 +232,6 @@
             this._lastX = e.touches[0].clientX;
           }
         },
-
         tick: function () {
           const now = performance.now();
           const dt = Math.min(0.05, (now - this._lastTick) / 1000);
@@ -252,11 +239,11 @@
 
           if (!this._isTracked()) return;
 
-          // Base auto spin always while tracked (never stops)
+          // Base auto spin always while tracked
           const autoRadPerSec = (this.data.autoRotateSpeed * Math.PI) / 180;
           this._applySpinDelta(autoRadPerSec * dt);
 
-          // Extra inertia spin when not touching
+          // Inertia when not touching
           if (!this._active && this._velSpin !== 0) {
             this._applySpinDelta(this._velSpin);
 
@@ -268,54 +255,67 @@
         }
       });
 
-      // ---------- Procedural "classic chrome" environment ----------
+      // -------- procedural env: rotate 90° by shifting equirect horizontally --------
+
       function makeChromeGradientEquirectCanvas(width = 1024, height = 512) {
         const c = document.createElement("canvas");
         c.width = width;
         c.height = height;
         const ctx = c.getContext("2d");
 
-        // Vertical gradient with your requested stops:
-        // top: sky blue
-        // center: light sky blue
-        // then dark gray
-        // then grass green
-        // bottom: desert brown
         const g = ctx.createLinearGradient(0, 0, 0, height);
         g.addColorStop(0.00, "#66B7FF"); // sky blue
-        g.addColorStop(0.35, "#CFEAFF"); // light sky blue (near center)
-        g.addColorStop(0.55, "#2D2F35"); // dark gray band
+        g.addColorStop(0.35, "#CFEAFF"); // light sky blue
+        g.addColorStop(0.55, "#2D2F35"); // dark gray
         g.addColorStop(0.72, "#2E7D32"); // grass green
         g.addColorStop(1.00, "#8B5A2B"); // desert brown
 
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, width, height);
 
-        // Add subtle horizon highlight band (helps chrome read)
-        ctx.globalAlpha = 0.18;
+        // horizon highlight
+        ctx.globalAlpha = 0.16;
         ctx.fillStyle = "#FFFFFF";
         ctx.fillRect(0, Math.floor(height * 0.48), width, Math.floor(height * 0.03));
         ctx.globalAlpha = 1.0;
 
-        // Add faint vignette for a more "studio" feel
+        // vignette
         const vignette = ctx.createRadialGradient(
           width * 0.5, height * 0.5, height * 0.15,
           width * 0.5, height * 0.5, height * 0.75
         );
         vignette.addColorStop(0.0, "rgba(0,0,0,0)");
-        vignette.addColorStop(1.0, "rgba(0,0,0,0.25)");
+        vignette.addColorStop(1.0, "rgba(0,0,0,0.22)");
         ctx.fillStyle = vignette;
         ctx.fillRect(0, 0, width, height);
 
         return c;
       }
 
+      function rotateEquirectCanvasX(srcCanvas, shiftFraction = 0.25) {
+        // shiftFraction = 0.25 => 90° yaw
+        const w = srcCanvas.width;
+        const h = srcCanvas.height;
+        const shiftPx = Math.round(w * shiftFraction);
+
+        const out = document.createElement("canvas");
+        out.width = w;
+        out.height = h;
+        const ctx = out.getContext("2d");
+
+        // Draw wrapped shift: right part to left, left part to right
+        ctx.drawImage(srcCanvas, w - shiftPx, 0, shiftPx, h, 0, 0, shiftPx, h);
+        ctx.drawImage(srcCanvas, 0, 0, w - shiftPx, h, shiftPx, 0, w - shiftPx, h);
+
+        return out;
+      }
+
       function applyEnvToModel(modelEl, envMap, opts = {}) {
         const {
-          envIntensity = 2.8,
+          envIntensity = 2.1,
           forceChrome = true,
           minMetalness = 0.95,
-          maxRoughness = 0.14
+          maxRoughness = 0.16
         } = opts;
 
         const obj = modelEl.getObject3D("mesh");
@@ -348,34 +348,30 @@
         const renderer = sceneEl.renderer;
         if (!renderer) return;
 
-        // Brighten a touch so metal is not crushed
-        renderer.toneMappingExposure = 1.35;
+        // Reduce brightness
+        renderer.toneMappingExposure = 1.05;
 
         const pmrem = new THREE.PMREMGenerator(renderer);
         pmrem.compileEquirectangularShader();
 
-        const eqCanvas = makeChromeGradientEquirectCanvas(1024, 512);
-        const eqTex = new THREE.CanvasTexture(eqCanvas);
+        const base = makeChromeGradientEquirectCanvas(1024, 512);
+        const rotated = rotateEquirectCanvasX(base, 0.25); // 90° yaw
+
+        const eqTex = new THREE.CanvasTexture(rotated);
         eqTex.mapping = THREE.EquirectangularReflectionMapping;
         eqTex.colorSpace = THREE.SRGBColorSpace;
 
         const envMap = pmrem.fromEquirectangular(eqTex).texture;
 
-        // Use as IBL source (background stays camera feed)
         sceneEl.object3D.environment = envMap;
 
         eqTex.dispose();
         pmrem.dispose();
 
-        if (modelEl.getObject3D("mesh")) {
-          applyEnvToModel(modelEl, envMap, { envIntensity: 3.0, forceChrome: true });
-        } else {
-          modelEl.addEventListener(
-            "model-loaded",
-            () => applyEnvToModel(modelEl, envMap, { envIntensity: 3.0, forceChrome: true }),
-            { once: true }
-          );
-        }
+        const apply = () => applyEnvToModel(modelEl, envMap, { envIntensity: 2.1, forceChrome: true });
+
+        if (modelEl.getObject3D("mesh")) apply();
+        else modelEl.addEventListener("model-loaded", apply, { once: true });
       }
     </script>
   </head>
@@ -406,10 +402,10 @@
         <a-asset-item id="model" src="./models/model.glb"></a-asset-item>
       </a-assets>
 
-      <!-- Put some fill back so it is not dark even before env map kicks in -->
-      <a-entity light="type: ambient; intensity: 0.9"></a-entity>
-      <a-entity light="type: directional; intensity: 1.1" position="1.5 2.2 1.2"></a-entity>
-      <a-entity light="type: directional; intensity: 0.6" position="-2 1.6 -1.2"></a-entity>
+      <!-- Dialed down overall brightness -->
+      <a-entity light="type: ambient; intensity: 0.45"></a-entity>
+      <a-entity light="type: directional; intensity: 0.65" position="1.5 2.2 1.2"></a-entity>
+      <a-entity light="type: directional; intensity: 0.35" position="-2 1.6 -1.2"></a-entity>
 
       <a-entity id="anchor" mindar-image-target="targetIndex: 0">
         <a-entity
@@ -428,7 +424,6 @@
               maxScale: 14.0;
             "
           >
-            <!-- Your correct orientation -->
             <a-entity id="modelOrient" rotation="90 0 0">
               <a-gltf-model id="arModel" src="#model" scale="1.05 1.05 1.05"></a-gltf-model>
             </a-entity>
@@ -462,11 +457,10 @@
         }
       }
 
-      showHint("Drag to spin. Pinch to scale.", 1000);
+      showHint("Drag to spin. Pinch to scale.", 900);
       anchorEl.addEventListener("targetFound", () => showHint("", 0));
       anchorEl.addEventListener("targetLost", () => showHint("Target lost. Move closer and reduce glare."));
 
-      // Procedural chrome environment (no HDR files)
       setupProceduralEnv(sceneEl, modelEl);
     </script>
   </body>
