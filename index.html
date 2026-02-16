@@ -8,6 +8,9 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
+    <!-- HDR loader for Three.js (used by A-Frame) -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/RGBELoader.js"></script>
+
     <style>
       html, body {
         margin: 0;
@@ -54,98 +57,9 @@
       }
       #hint.show { opacity: 1; }
     </style>
-  </head>
-
-  <body>
-    <div id="hint"></div>
-
-    <a-scene
-      id="scene"
-      embedded
-      renderer="alpha: true; antialias: true; colorManagement: true; physicallyCorrectLights: true; toneMapping: ACESFilmic; toneMappingExposure: 1.25;"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-      mindar-image="
-        imageTargetSrc: ./targets/targets.mind;
-        autoStart: true;
-        uiScanning: true;
-        uiLoading: true;
-
-        filterMinCF: 0.001;
-        filterBeta: 25;
-
-        warmupTolerance: 10;
-        missTolerance: 10;
-      "
-    >
-      <a-assets>
-        <a-asset-item id="model" src="./models/model.glb"></a-asset-item>
-      </a-assets>
-
-      <!-- Lighting: more fill + nicer metal read -->
-      <a-entity light="type: ambient; intensity: 1.35"></a-entity>
-      <a-entity light="type: hemisphere; intensity: 0.75; color: #ffffff; groundColor: #5a6a7a"></a-entity>
-
-      <!-- Key light -->
-      <a-entity light="type: directional; intensity: 1.35" position="1.2 2.4 1.8"></a-entity>
-      <!-- Rim / kicker -->
-      <a-entity light="type: directional; intensity: 0.9" position="-2 1.8 -1.2"></a-entity>
-      <!-- Soft fill point -->
-      <a-entity light="type: point; intensity: 0.55; distance: 8" position="0 2.2 0.9"></a-entity>
-
-      <a-entity id="anchor" mindar-image-target="targetIndex: 0">
-        <a-entity
-          id="smooth"
-          pose-stabilizer="posLerp: 0.14; rotLerp: 0.12; scaleLerp: 0.10; maxScaleStep: 0.015; holdMs: 250;"
-        >
-          <a-entity
-            id="spinRoot"
-            touch-manipulator="
-              spinAxis: z;
-              rotateSpeed: 0.20;
-              inertia: 0.93;
-              autoRotateSpeed: 0.65;
-              minScale: 0.05;
-              maxScale: 14.0;
-            "
-          >
-            <!-- Your working orientation -->
-            <a-entity id="modelOrient" rotation="90 0 0">
-              <a-gltf-model
-                id="arModel"
-                src="#model"
-                scale="1.05 1.05 1.05"
-              ></a-gltf-model>
-            </a-entity>
-          </a-entity>
-        </a-entity>
-      </a-entity>
-
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-    </a-scene>
 
     <script>
-      const hintEl = document.getElementById("hint");
-      const anchorEl = document.getElementById("anchor");
-
-      let hintTimer = null;
-      function showHint(msg, autoHideMs = 0) {
-        if (hintTimer) {
-          clearTimeout(hintTimer);
-          hintTimer = null;
-        }
-        hintEl.textContent = msg || "";
-        if (msg) hintEl.classList.add("show");
-        else hintEl.classList.remove("show");
-
-        if (msg && autoHideMs > 0) {
-          hintTimer = setTimeout(() => {
-            hintEl.classList.remove("show");
-            hintEl.textContent = "";
-            hintTimer = null;
-          }, autoHideMs);
-        }
-      }
+      // IMPORTANT: register components BEFORE <a-scene> is parsed.
 
       AFRAME.registerComponent("pose-stabilizer", {
         schema: {
@@ -222,10 +136,11 @@
 
       AFRAME.registerComponent("touch-manipulator", {
         schema: {
-          spinAxis: { type: "string", default: "z" },      // "x" | "y" | "z"
-          rotateSpeed: { type: "number", default: 0.20 },
-          inertia: { type: "number", default: 0.93 },
-          autoRotateSpeed: { type: "number", default: 0.65 }, // degrees per second
+          spinAxis: { type: "string", default: "z" },          // "x" | "y" | "z"
+          rotateSpeed: { type: "number", default: 0.22 },
+          inertia: { type: "number", default: 0.975 },        // heavier glide (closer to 1 = longer)
+          inertiaBoost: { type: "number", default: 1.35 },    // makes swipe feel heavier
+          autoRotateSpeed: { type: "number", default: 0.6 },  // degrees per second
           minScale: { type: "number", default: 0.05 },
           maxScale: { type: "number", default: 14.0 }
         },
@@ -239,6 +154,7 @@
           this._startScale = new THREE.Vector3();
 
           this._velSpin = 0;
+          this._lastTick = performance.now();
 
           this._onTouchStart = this._onTouchStart.bind(this);
           this._onTouchMove = this._onTouchMove.bind(this);
@@ -248,8 +164,6 @@
           document.addEventListener("touchmove", this._onTouchMove, { passive: false });
           document.addEventListener("touchend", this._onTouchEnd, { passive: false });
           document.addEventListener("touchcancel", this._onTouchEnd, { passive: false });
-
-          this._lastTick = performance.now();
         },
 
         remove: function () {
@@ -260,15 +174,8 @@
         },
 
         _isModelVisible: function () {
-          // More robust than only anchor.object3D.visible
           const anchor = document.getElementById("anchor");
-          if (!anchor) return false;
-
-          const aObjVisible = !!(anchor.object3D && anchor.object3D.visible);
-          const aAttrVisible = anchor.getAttribute("visible") !== false;
-
-          // MindAR toggles object3D.visible; attribute can remain true.
-          return aObjVisible || aAttrVisible;
+          return !!(anchor && anchor.object3D && anchor.object3D.visible === true);
         },
 
         _dist: function (t0, t1) {
@@ -315,7 +222,9 @@
 
             const spinDelta = dx * 0.01 * this.data.rotateSpeed;
             this._applySpinDelta(spinDelta);
-            this._velSpin = spinDelta;
+
+            // Heavier feeling: amplify swipe velocity a bit
+            this._velSpin = spinDelta * this.data.inertiaBoost;
           }
 
           if (this._mode === "pinch" && e.touches.length === 2) {
@@ -352,14 +261,14 @@
 
           if (!this._isModelVisible()) return;
 
-          // Auto rotation (always visible + not touching)
+          // Auto-rotate whenever not touching
           if (!this._active) {
             const autoRadPerSec = (this.data.autoRotateSpeed * Math.PI) / 180;
             this._applySpinDelta(autoRadPerSec * dt);
           }
 
-          // Inertia (only when not touching)
-          if (!this._active) {
+          // Inertia whenever not touching
+          if (!this._active && this._velSpin !== 0) {
             this._applySpinDelta(this._velSpin);
 
             const f = Math.pow(this.data.inertia, 60 * dt);
@@ -369,6 +278,157 @@
           }
         }
       });
+    </script>
+  </head>
+
+  <body>
+    <div id="hint"></div>
+
+    <a-scene
+      id="scene"
+      embedded
+      renderer="alpha: true; antialias: true; colorManagement: true; physicallyCorrectLights: true; toneMapping: ACESFilmic; toneMappingExposure: 1.2;"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      mindar-image="
+        imageTargetSrc: ./targets/targets.mind;
+        autoStart: true;
+        uiScanning: true;
+        uiLoading: true;
+
+        filterMinCF: 0.001;
+        filterBeta: 25;
+
+        warmupTolerance: 10;
+        missTolerance: 10;
+      "
+    >
+      <a-assets>
+        <a-asset-item id="model" src="./models/model.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- Keep simple direct lights (IBL does the heavy lifting) -->
+      <a-entity light="type: ambient; intensity: 0.45"></a-entity>
+      <a-entity light="type: directional; intensity: 0.9" position="1.2 2.4 1.8"></a-entity>
+      <a-entity light="type: directional; intensity: 0.5" position="-2 1.8 -1.2"></a-entity>
+
+      <a-entity id="anchor" mindar-image-target="targetIndex: 0">
+        <a-entity
+          id="smooth"
+          pose-stabilizer="posLerp: 0.14; rotLerp: 0.12; scaleLerp: 0.10; maxScaleStep: 0.015; holdMs: 250;"
+        >
+          <a-entity
+            id="spinRoot"
+            touch-manipulator="
+              spinAxis: z;
+              rotateSpeed: 0.22;
+              inertia: 0.975;
+              inertiaBoost: 1.35;
+              autoRotateSpeed: 0.6;
+              minScale: 0.05;
+              maxScale: 14.0;
+            "
+          >
+            <!-- Your working orientation -->
+            <a-entity id="modelOrient" rotation="90 0 0">
+              <!-- Starting scale (your 200% increase already baked in) -->
+              <a-gltf-model id="arModel" src="#model" scale="1.05 1.05 1.05"></a-gltf-model>
+            </a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    </a-scene>
+
+    <script>
+      const hintEl = document.getElementById("hint");
+      const anchorEl = document.getElementById("anchor");
+      const sceneEl = document.getElementById("scene");
+      const modelEl = document.getElementById("arModel");
+
+      let hintTimer = null;
+      function showHint(msg, autoHideMs = 0) {
+        if (hintTimer) {
+          clearTimeout(hintTimer);
+          hintTimer = null;
+        }
+        hintEl.textContent = msg || "";
+        if (msg) hintEl.classList.add("show");
+        else hintEl.classList.remove("show");
+
+        if (msg && autoHideMs > 0) {
+          hintTimer = setTimeout(() => {
+            hintEl.classList.remove("show");
+            hintEl.textContent = "";
+            hintTimer = null;
+          }, autoHideMs);
+        }
+      }
+
+      // --- HDR IBL setup ---
+      // Put your HDR here:
+      const HDR_URL = "./hdr/env.hdr";
+
+      function applyEnvMapToModel(envMap) {
+        const obj = modelEl.getObject3D("mesh");
+        if (!obj) return;
+
+        obj.traverse((n) => {
+          if (!n.isMesh || !n.material) return;
+
+          const materials = Array.isArray(n.material) ? n.material : [n.material];
+          materials.forEach((m) => {
+            // For glTF PBR materials
+            if ("envMapIntensity" in m) m.envMapIntensity = 1.35;
+            m.needsUpdate = true;
+          });
+        });
+      }
+
+      async function setupHDR() {
+        // Wait for scene renderer to exist
+        if (!sceneEl.hasLoaded) {
+          await new Promise((resolve) => sceneEl.addEventListener("loaded", resolve, { once: true }));
+        }
+
+        const renderer = sceneEl.renderer;
+        if (!renderer) return;
+
+        renderer.toneMappingExposure = 1.2;
+
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        pmrem.compileEquirectangularShader();
+
+        const loader = new THREE.RGBELoader();
+        loader.setDataType(THREE.HalfFloatType);
+
+        loader.load(
+          HDR_URL,
+          (hdrTex) => {
+            const envMap = pmrem.fromEquirectangular(hdrTex).texture;
+
+            // Apply as environment (IBL) without changing camera background
+            sceneEl.object3D.environment = envMap;
+
+            // Optional: if you ever want the HDR as background:
+            // sceneEl.object3D.background = envMap;
+
+            hdrTex.dispose();
+            pmrem.dispose();
+
+            // Apply to model once it is loaded
+            if (modelEl.getObject3D("mesh")) applyEnvMapToModel(envMap);
+            else modelEl.addEventListener("model-loaded", () => applyEnvMapToModel(envMap), { once: true });
+          },
+          undefined,
+          (err) => {
+            console.error("HDR load failed:", err);
+          }
+        );
+      }
+
+      setupHDR();
 
       showHint("Drag to spin. Pinch to scale.", 1400);
 
