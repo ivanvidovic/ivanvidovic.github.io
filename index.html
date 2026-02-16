@@ -12,17 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
     <style>
-      :root {
-        --bg: rgba(0, 0, 0, 0.35);
-        --panel: rgba(20, 20, 22, 0.55);
-        --panel2: rgba(255, 255, 255, 0.10);
-        --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.72);
-        --stroke: rgba(255, 255, 255, 0.18);
-        --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-        --radius: 18px;
-      }
-
       html,
       body {
         margin: 0;
@@ -33,7 +22,7 @@
         font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
       }
 
-      /* Ensure camera video sits behind the WebGL canvas */
+      /* Camera video behind WebGL */
       video {
         position: fixed !important;
         inset: 0 !important;
@@ -43,6 +32,7 @@
         z-index: 0 !important;
       }
 
+      /* WebGL canvas above video */
       canvas {
         position: fixed !important;
         inset: 0 !important;
@@ -53,7 +43,7 @@
         display: block !important;
       }
 
-      /* Fullscreen UI overlay */
+      /* Minimal overlay */
       #overlay {
         position: fixed;
         inset: 0;
@@ -61,178 +51,123 @@
         pointer-events: none;
       }
 
-      /* Status pill */
-      #statusPill {
+      #top {
         position: absolute;
-        top: calc(env(safe-area-inset-top) + 14px);
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 10px 12px;
-        border-radius: 999px;
-        background: rgba(0, 0, 0, 0.35);
-        border: 1px solid var(--stroke);
-        color: var(--text);
-        font-size: 13px;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        top: calc(env(safe-area-inset-top) + 12px);
+        left: 12px;
+        right: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         pointer-events: none;
-        opacity: 0;
-        transition: opacity 220ms ease;
-        max-width: min(92vw, 520px);
-        text-align: center;
       }
 
-      #statusPill.show {
+      #status {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        transition: opacity 160ms ease;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #status.show {
         opacity: 1;
       }
 
-      /* Start card */
       #gate {
         position: absolute;
         inset: 0;
         display: grid;
         place-items: center;
-        pointer-events: none;
         padding: 18px;
+        pointer-events: none;
       }
 
-      #card {
-        width: min(440px, 92vw);
-        border-radius: var(--radius);
-        background: linear-gradient(180deg, var(--panel), rgba(20, 20, 22, 0.35));
-        border: 1px solid var(--stroke);
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
+      #gateInner {
         pointer-events: auto;
-        overflow: hidden;
-      }
-
-      #cardInner {
-        padding: 18px 18px 16px 18px;
+        width: min(420px, 92vw);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(0, 0, 0, 0.35);
+        padding: 16px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
       }
 
       #title {
-        font-size: 18px;
-        letter-spacing: 0.2px;
-        color: var(--text);
         margin: 0;
-      }
-
-      #sub {
-        margin: 8px 0 0 0;
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.35;
-      }
-
-      #btnRow {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin-top: 14px;
-      }
-
-      button {
-        appearance: none;
-        border: 0;
-        border-radius: 14px;
-        padding: 12px 14px;
+        font-size: 16px;
         font-weight: 650;
-        font-size: 14px;
-        cursor: pointer;
+        color: rgba(255, 255, 255, 0.92);
+        letter-spacing: 0.2px;
+      }
+
+      #copy {
+        margin: 8px 0 0 0;
+        font-size: 13px;
+        line-height: 1.35;
+        color: rgba(255, 255, 255, 0.78);
       }
 
       #startBtn {
+        margin-top: 12px;
+        width: 100%;
+        padding: 12px 14px;
+        border: 0;
+        border-radius: 12px;
         background: rgba(255, 255, 255, 0.92);
         color: #0b0b0c;
+        font-size: 14px;
+        font-weight: 650;
+        cursor: pointer;
       }
 
       #startBtn:active {
         transform: translateY(1px);
       }
 
-      #secondaryBtn {
-        background: rgba(255, 255, 255, 0.10);
-        color: var(--text);
-        border: 1px solid var(--stroke);
-      }
-
-      #fine {
-        margin-top: 10px;
-        color: rgba(255, 255, 255, 0.62);
-        font-size: 12px;
-        line-height: 1.35;
-      }
-
-      /* Bottom hint */
       #hint {
         position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: calc(env(safe-area-inset-bottom) + 14px);
-        width: min(680px, 92vw);
-        padding: 12px 14px;
-        border-radius: 16px;
-        background: rgba(0, 0, 0, 0.28);
-        border: 1px solid var(--stroke);
-        color: rgba(255, 255, 255, 0.88);
+        left: 12px;
+        right: 12px;
+        bottom: calc(env(safe-area-inset-bottom) + 12px);
         font-size: 13px;
         line-height: 1.25;
-        text-align: center;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        pointer-events: none;
+        color: rgba(255, 255, 255, 0.88);
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
         opacity: 0;
-        transition: opacity 220ms ease;
+        transition: opacity 160ms ease;
+        text-align: center;
+        pointer-events: none;
       }
 
       #hint.show {
         opacity: 1;
-      }
-
-      /* Optional subtle vignette to make UI readable */
-      #vignette {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(
-          circle at center,
-          rgba(0, 0, 0, 0) 55%,
-          rgba(0, 0, 0, 0.28) 100%
-        );
-        pointer-events: none;
       }
     </style>
   </head>
 
   <body>
     <div id="overlay" aria-hidden="true">
-      <div id="vignette"></div>
-
-      <div id="statusPill">Initializing…</div>
+      <div id="top">
+        <div id="status"></div>
+        <div></div>
+      </div>
 
       <div id="gate">
-        <div id="card">
-          <div id="cardInner">
-            <h1 id="title">Keychain AR</h1>
-            <p id="sub">
-              Tap Start, allow camera access, then point at the symbol to place the 3D model.
-            </p>
-
-            <div id="btnRow">
-              <button id="startBtn" type="button">Start</button>
-              <button id="secondaryBtn" type="button">Reload</button>
-            </div>
-
-            <div id="fine">
-              Tip: Bright, diffuse light helps. Glossy surfaces can cause tracking jitter.
-            </div>
-          </div>
+        <div id="gateInner">
+          <h1 id="title">Keychain AR</h1>
+          <p id="copy">
+            Tap Start, allow camera access, then point at the symbol.
+          </p>
+          <button id="startBtn" type="button">Start</button>
         </div>
       </div>
 
-      <div id="hint">Move closer and keep the symbol in frame.</div>
+      <div id="hint">Keep the symbol in frame.</div>
     </div>
 
     <a-scene
@@ -279,32 +214,24 @@
     </a-scene>
 
     <script>
-      const overlay = document.getElementById("overlay");
       const gate = document.getElementById("gate");
       const startBtn = document.getElementById("startBtn");
-      const secondaryBtn = document.getElementById("secondaryBtn");
-      const statusPill = document.getElementById("statusPill");
-      const hint = document.getElementById("hint");
+      const statusEl = document.getElementById("status");
+      const hintEl = document.getElementById("hint");
 
       const sceneEl = document.getElementById("scene");
       const anchorEl = document.getElementById("anchor");
 
-      function showStatus(msg) {
-        statusPill.textContent = msg;
-        statusPill.classList.add("show");
+      function setStatus(msg, show = true) {
+        statusEl.textContent = msg || "";
+        if (show && msg) statusEl.classList.add("show");
+        else statusEl.classList.remove("show");
       }
 
-      function hideStatus() {
-        statusPill.classList.remove("show");
-      }
-
-      function showHint(msg) {
-        if (msg) hint.textContent = msg;
-        hint.classList.add("show");
-      }
-
-      function hideHint() {
-        hint.classList.remove("show");
+      function setHint(msg, show = true) {
+        if (msg) hintEl.textContent = msg;
+        if (show) hintEl.classList.add("show");
+        else hintEl.classList.remove("show");
       }
 
       AFRAME.registerComponent("pose-stabilizer", {
@@ -383,7 +310,7 @@
 
       async function startAR() {
         try {
-          showStatus("Starting camera…");
+          setStatus("Starting camera…", true);
 
           if (!sceneEl.hasLoaded) {
             await new Promise((resolve) =>
@@ -395,29 +322,28 @@
           await mindarSystem.start();
 
           gate.style.display = "none";
-          hideStatus();
-          showHint("Keep the symbol in frame.");
+          setStatus("", false);
+          setHint("Keep the symbol in frame.", true);
 
-          setTimeout(() => hideHint(), 1800);
+          setTimeout(() => setHint("", false), 1400);
         } catch (e) {
           console.error(e);
-          showStatus("Camera start failed. Tap Reload.");
+          setStatus("Camera start failed. Refresh and try again.", true);
         }
       }
 
       startBtn.addEventListener("click", startAR);
-      secondaryBtn.addEventListener("click", () => location.reload());
 
       anchorEl.addEventListener("targetFound", () => {
-        showStatus("Locked on");
-        setTimeout(() => hideStatus(), 650);
+        setStatus("Locked", true);
+        setTimeout(() => setStatus("", false), 600);
       });
 
       anchorEl.addEventListener("targetLost", () => {
-        showHint("Target lost. Move closer and reduce glare.");
+        setHint("Target lost. Move closer and reduce glare.", true);
       });
 
-      showStatus("Ready");
+      setStatus("Ready", true);
     </script>
   </body>
 </html>
